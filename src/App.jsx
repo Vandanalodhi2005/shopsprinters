@@ -27,6 +27,26 @@ function App() {
 
   const renderPage = () => {
     switch (currentPage) {
+      case 'about':
+        return <About />;
+      case 'shop':
+        return <Shop setPage={handleProductClick} />;
+      case 'faqs':
+        return <FAQs />;
+      case 'contact':
+        return <Contact />;
+      case 'privacy':
+        return <PrivacyPolicy />;
+      case 'terms':
+        return <TermsConditions />;
+      case 'refund-policy':
+        return <RefundReturnPolicy />;
+      case 'shipping':
+        return <ShippingPolicy />;
+      case 'accessibility':
+        return <AccessibilityStatement />;
+      case 'cookie-policy':
+        return <CookiePolicy />;
       case 'disclaimer':
         return <Disclaimer />;
       case 'product-details':

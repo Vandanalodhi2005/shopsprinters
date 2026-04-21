@@ -102,7 +102,7 @@ const Shop = ({ setPage }) => {
               <div 
                 key={product._id} 
                 className="group flex flex-col h-full cursor-pointer"
-                onClick={() => onProductClick(product._id)}
+                onClick={() => setPage(product._id)}
               >
                 {/* Image Box */}
                 <div className="relative aspect-square mb-6 flex items-center justify-center p-8 transition-all duration-300">
