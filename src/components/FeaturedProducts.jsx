@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import { useCart } from '../context/CartContext';
 
 const FeaturedProducts = ({ setPage }) => {
+  const { addToCart } = useCart();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const handleQuickAdd = (e, product) => {
+    e.stopPropagation();
+    addToCart(product, 1);
+    setPage('cart');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -31,7 +40,7 @@ const FeaturedProducts = ({ setPage }) => {
   const handleSeeMore = () => {
     if (setPage) {
         setPage('shop');
-        window.scrollTo(0, 0);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -41,7 +50,7 @@ const FeaturedProducts = ({ setPage }) => {
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-4xl md:text-[54px] font-[900] text-dark mb-6 tracking-tight">Featured Products</h2>
           <p className="text-[#666] text-lg font-medium leading-relaxed">
-            Browse featured printers, ink, and accessories that customers trust for everyday home and office use.
+            Browse reliable printers, ink, and accessories that customers trust for everyday home and office use.
           </p>
         </div>
 
@@ -53,7 +62,6 @@ const FeaturedProducts = ({ setPage }) => {
           <div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
               {products.map((product) => {
-                // Universal Extraction Logic
                 const name = product.title || product.name || 'Untitled Printer';
                 const price = Number(product.price || product.salePrice || 0);
                 const oldPrice = Number(product.oldPrice || product.price_origin || product.originalPrice || 0);
@@ -66,7 +74,7 @@ const FeaturedProducts = ({ setPage }) => {
                     onClick={() => setPage(product._id)}
                   >
                     {/* Image Container */}
-                    <div className="relative aspect-square bg-[#fcfcfc] rounded-2xl overflow-hidden mb-6 group-hover:shadow-xl transition-all duration-500 flex items-center justify-center p-6 border border-gray-100">
+                    <div className="relative aspect-square bg-[#fcfcfc] rounded-3xl overflow-hidden mb-6 group-hover:shadow-xl transition-all duration-500 flex items-center justify-center p-6 border border-gray-100">
                       <img 
                         src={product.images && product.images[0] ? product.images[0] : '/placeholder-printer.png'} 
                         alt={name}
@@ -81,22 +89,25 @@ const FeaturedProducts = ({ setPage }) => {
                       )}
 
                       {/* Cart Icon */}
-                      <button className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center text-dark opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-[#ff2d46] hover:text-white translate-y-2 group-hover:translate-y-0">
+                      <button 
+                        onClick={(e) => handleQuickAdd(e, product)}
+                        className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center text-dark opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-[#ff2d46] hover:text-white translate-y-2 group-hover:translate-y-0 z-20"
+                      >
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
                       </button>
                     </div>
 
-                    {/* Content - Smart extraction applied with Brand */}
+                    {/* Content */}
                     <div className="flex-1 flex flex-col px-1">
                       <h3 className="text-[17px] font-bold text-dark leading-snug mb-1.5 group-hover:text-[#ff2d46] transition-colors line-clamp-2">
                         {name}
                       </h3>
-                      <p className="text-[13px] text-[#999] mb-4 font-semibold">
+                      <p className="text-[13px] text-[#999] mb-4 font-bold">
                         {product.brand ? `${product.brand} | ` : ''}{type}
                       </p>
                       <div className="mt-auto flex items-center gap-3">
                         {oldPrice > price && (
-                          <span className="text-[15px] text-[#ccc] line-through">${oldPrice.toFixed(2)}</span>
+                          <span className="text-[15px] text-[#ccc] line-through font-bold">${oldPrice.toFixed(2)}</span>
                         )}
                         <span className="text-[16px] font-black text-dark">${price.toFixed(2)}</span>
                       </div>
@@ -109,7 +120,7 @@ const FeaturedProducts = ({ setPage }) => {
             <div className="mt-16 flex justify-center">
               <button 
                 onClick={handleSeeMore}
-                className="btn-primary py-4 px-12 text-[15px] font-[900] tracking-widest bg-dark hover:bg-[#ff2d46] transition-all duration-300 rounded-full text-white shadow-lg hover:shadow-primary/30"
+                className="bg-dark text-white py-4 px-12 text-[15px] font-[900] tracking-widest hover:bg-[#ff2d46] transition-all duration-300 rounded-full shadow-lg hover:shadow-primary/30 uppercase"
               >
                 See More
               </button>

@@ -19,7 +19,7 @@ const QualitySection = ({ setPage }) => {
             Quality Products for Every <br className="hidden md:block" /> Printing Need
           </h2>
           
-          <p className="text-gray-600 text-base md:text-lg leading-relaxed mb-8 normal-case">
+          <p className="text-gray-600 text-base md:text-lg leading-relaxed mb-8 normal-case font-medium">
             At Shops Printers, we offer a curated selection of printers and supplies 
             sourced from reputable distributors and trusted partners. From inkjet 
             and laser models to ink and toner cartridges, our product range supports 
@@ -28,12 +28,12 @@ const QualitySection = ({ setPage }) => {
 
           <button 
             onClick={() => setPage('shop')}
-            className="btn-primary inline-flex items-center group font-black"
+            className="inline-flex items-center gap-3 bg-[#ff2d46] text-white py-4 px-10 rounded-full font-black text-sm uppercase tracking-widest transition-all duration-300 hover:scale-105 hover:bg-dark group shadow-xl shadow-[#ff2d46]/20"
           >
             Shop Now
             <svg 
               xmlns="http://www.w3.org/2000/svg" 
-              className="h-5 w-5 ml-2 transform transition-transform group-hover:translate-x-1" 
+              className="h-5 w-5 transform transition-transform group-hover:translate-x-1" 
               fill="none" 
               viewBox="0 0 24 24" 
               stroke="currentColor"

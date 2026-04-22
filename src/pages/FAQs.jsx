@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const FAQs = () => {
+const FAQs = ({ setPage }) => {
   const [activeIndex, setActiveIndex] = useState(null);
 
   const toggleFAQ = (index) => {
@@ -60,13 +60,13 @@ const FAQs = () => {
 
   return (
     <main className="bg-white min-h-screen">
-      {/* Header Section - Match image UI */}
+      {/* Header Section */}
       <section className="pt-40 pb-20 bg-[#fdf2f2]">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h1 className="text-[42px] md:text-[54px] font-[900] text-dark mb-6 leading-tight">
-            Frequently Asked Questions <br/> (FAQ)
+          <h1 className="text-[42px] md:text-[54px] font-medium text-dark mb-6 leading-tight">
+            Frequently Asked Questions
           </h1>
-          <p className="text-[#666] text-[17px] font-medium max-w-2xl mx-auto leading-relaxed">
+          <p className="text-[#666] text-[17px] font-medium max-w-2xl mx-auto leading-relaxed opacity-80">
             Find answers to common questions about our products, orders, and support services. 
             If you need further help, feel free to contact us anytime.
           </p>
@@ -83,11 +83,11 @@ const FAQs = () => {
                   onClick={() => toggleFAQ(index)}
                   className="w-full py-7 flex items-center justify-between text-left group transition-all"
                 >
-                  <span className={`text-[17px] font-black transition-colors ${activeIndex === index ? 'text-[#ff2d46]' : 'text-dark'}`}>
+                  <span className={`text-[17px] font-medium transition-colors ${activeIndex === index ? 'text-[#ff2d46]' : 'text-dark'}`}>
                     {index + 1}. {item.q}
                   </span>
                   <span className={`transform transition-transform duration-300 ${activeIndex === index ? 'rotate-180' : ''}`}>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className={activeIndex === index ? 'text-[#ff2d46]' : 'text-gray-300'}>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={activeIndex === index ? 'text-[#ff2d46]' : 'text-gray-300'}>
                       <polyline points="6 9 12 15 18 9" />
                     </svg>
                   </span>
@@ -95,7 +95,7 @@ const FAQs = () => {
                 <div 
                   className={`overflow-hidden transition-all duration-300 ease-in-out ${activeIndex === index ? 'max-h-[300px] pb-8' : 'max-h-0'}`}
                 >
-                  <p className="text-[#666] text-[16px] leading-relaxed font-medium pr-10">
+                  <p className="text-[#666] text-[16px] leading-relaxed font-medium pr-10 opacity-80">
                     {item.a}
                   </p>
                 </div>
@@ -103,11 +103,14 @@ const FAQs = () => {
             ))}
           </div>
 
-          <div className="mt-20 text-center bg-[#fafafa] p-12 rounded-3xl border border-gray-100">
-             <h3 className="text-2xl font-black text-dark mb-4">Still have questions?</h3>
-             <p className="text-[#666] mb-8 font-medium">We're here to help you get the most out of your printing experience.</p>
-             <button className="bg-dark text-white font-black px-10 py-4 rounded-full uppercase text-sm tracking-widest hover:bg-[#ff2d46] transition-all transform hover:-translate-y-1">
-               Contact Support
+          <div className="mt-20 text-center bg-[#fdf2f2]/30 p-12 rounded-[40px] border border-gray-50">
+             <h3 className="text-2xl font-medium text-dark mb-4">Still have questions?</h3>
+             <p className="text-[#666] mb-8 font-medium opacity-80">We're here to help you get the most out of your printing experience.</p>
+             <button 
+                onClick={() => setPage('contact')}
+                className="bg-dark text-white font-medium px-10 py-4 rounded-full uppercase text-sm tracking-widest hover:bg-[#ff2d46] transition-all transform hover:-translate-y-1 shadow-lg shadow-black/10"
+             >
+                Contact Support
              </button>
           </div>
         </div>

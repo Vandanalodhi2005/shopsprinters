@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const Contact = () => {
+const Contact = ({ setPage }) => {
+  const [agreed, setAgreed] = useState(false);
+
   return (
     <main className="bg-white min-h-screen">
-      {/* Header Section - Matches image UI */}
+      {/* Header Section */}
       <section className="pt-40 pb-20 bg-[#fdf2f2]">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h1 className="text-[30px] md:text-[54px] font-[900] mb-6 leading-tight">
+          <h1 className="text-[30px] md:text-[54px] font-medium mb-6 leading-tight">
             Contact Us
           </h1>
-          <p className="text-[#666] text-[17px] max-w-xl mx-auto leading-relaxed">
+          <p className="text-[#666] text-[17px] font-medium max-w-xl mx-auto leading-relaxed opacity-80">
             We’re here to help with any questions about our products, orders, or
             printing support. Whether you need assistance choosing the right
             printer, tracking an order, or resolving a technical issue, our team is
@@ -18,20 +20,20 @@ const Contact = () => {
         </div>
       </section>
 
-      {/* Main Content - Two Column Layout */}
+      {/* Main Content */}
       <section className="py-20">
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
             
             {/* Left Column: Form */}
             <div className="bg-[#fdf2f2] p-8 md:p-12 rounded-[40px] shadow-sm">
-              <h2 className="text-2xl font-black text-dark mb-8">Send Us Message</h2>
+              <h2 className="text-2xl font-medium text-dark mb-8">Send Us Message</h2>
               <form className="space-y-6">
                 <div>
                   <input 
                     type="text" 
                     placeholder="Name *" 
-                    className="w-full bg-[#eeebeb] border-none rounded-lg px-6 py-4 text-sm text-gray-700 focus:ring-2 focus:ring-[#ff2d46] outline-none"
+                    className="w-full bg-[#eeebeb] border-none rounded-lg px-6 py-4 text-sm text-gray-700 font-medium focus:ring-1 focus:ring-[#ff2d46] outline-none"
                     required 
                   />
                 </div>
@@ -39,7 +41,7 @@ const Contact = () => {
                   <input 
                     type="email" 
                     placeholder="Email *" 
-                    className="w-full bg-[#eeebeb] border-none rounded-lg px-6 py-4 text-sm text-gray-700 focus:ring-2 focus:ring-[#ff2d46] outline-none"
+                    className="w-full bg-[#eeebeb] border-none rounded-lg px-6 py-4 text-sm text-gray-700 font-medium focus:ring-1 focus:ring-[#ff2d46] outline-none"
                     required 
                   />
                 </div>
@@ -47,17 +49,33 @@ const Contact = () => {
                   <textarea 
                     placeholder="Comment *" 
                     rows="5"
-                    className="w-full bg-[#eeebeb] border-none rounded-lg px-6 py-4 text-sm text-gray-700 focus:ring-2 focus:ring-[#ff2d46] outline-none resize-none"
+                    className="w-full bg-[#eeebeb] border-none rounded-lg px-6 py-4 text-sm text-gray-700 font-medium focus:ring-1 focus:ring-[#ff2d46] outline-none resize-none"
                     required
                   ></textarea>
                 </div>
-                <div className="flex items-start gap-3">
-                  <input type="checkbox" id="saveInfo" className="mt-1 accent-[#ff2d46]" />
-                  <label htmlFor="saveInfo" className="text-xs font-bold text-gray-600 cursor-pointer">
-                    Save my name, email and website in this browser
+                
+                <div className="flex items-start gap-3 px-1">
+                  <input 
+                    type="checkbox" 
+                    id="contact-agreed" 
+                    checked={agreed}
+                    onChange={(e) => setAgreed(e.target.checked)}
+                    className="mt-1.5 w-4 h-4 accent-[#ff2d46] cursor-pointer" 
+                    required
+                  />
+                  <label htmlFor="contact-agreed" className="text-[11px] font-medium text-[#666] cursor-pointer leading-relaxed">
+                    By submitting this form, you agree to our 
+                    <button type="button" onClick={() => setPage('privacy')} className="text-[#ff2d46] mx-1 hover:underline">Privacy Policy</button>, 
+                    <button type="button" onClick={() => setPage('terms')} className="text-[#ff2d46] mx-1 hover:underline">Terms & Conditions</button>, 
+                    <button type="button" onClick={() => setPage('refund-policy')} className="text-[#ff2d46] mx-1 hover:underline">Refund & Return Policy</button> 
+                    and consent to us using your information to respond to your request.
                   </label>
                 </div>
-                <button className="bg-dark text-white font-black px-12 py-4 rounded-full uppercase text-sm tracking-widest hover:bg-[#ff2d46] transition-all transform hover:-translate-y-1">
+
+                <button 
+                  disabled={!agreed}
+                  className={`px-12 py-4 rounded-full uppercase text-sm tracking-widest transition-all transform flex items-center justify-center gap-2 font-medium ${agreed ? 'bg-dark text-white hover:bg-[#ff2d46] hover:-translate-y-1 shadow-lg shadow-black/10' : 'bg-gray-100 text-gray-300 cursor-not-allowed'}`}
+                >
                   SEND
                 </button>
               </form>
@@ -73,8 +91,8 @@ const Contact = () => {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="text-lg font-black text-dark mb-1">Address</h3>
-                  <p className="text-gray-600 font-medium leading-relaxed">
+                  <h3 className="text-lg font-medium text-dark mb-1">Address</h3>
+                  <p className="text-gray-600 font-medium leading-relaxed opacity-80">
                     17807 Lakecrest View Drive,, Cypress, TX 77433
                   </p>
                 </div>
@@ -88,8 +106,8 @@ const Contact = () => {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="text-lg font-black text-dark mb-1">Email</h3>
-                  <p className="text-gray-600 font-medium leading-relaxed">
+                  <h3 className="text-lg font-medium text-dark mb-1">Email</h3>
+                  <p className="text-gray-600 font-medium leading-relaxed opacity-80">
                     support@shopsprinters.com
                   </p>
                 </div>
@@ -102,8 +120,8 @@ const Contact = () => {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="text-lg font-black text-dark mb-1">Website</h3>
-                  <p className="text-gray-600 font-medium leading-relaxed">
+                  <h3 className="text-lg font-medium text-dark mb-1">Website</h3>
+                  <p className="text-gray-600 font-medium leading-relaxed opacity-80">
                     www.shopsprinters.com
                   </p>
                 </div>
@@ -111,33 +129,26 @@ const Contact = () => {
 
               <div className="flex items-start gap-5">
                 <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-[#ff2d46] shadow-sm flex-shrink-0">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M3.172 5.172a4 4 0 115.656 5.656L10 12.121l1.172-1.172a4 4 0 115.656-5.656 4 4 0 01-5.656 0L10 6.465l-1.172 1.172a4 4 0 01-5.656 0z" clipRule="evenodd" />
-                  </svg>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
                 </div>
                 <div>
-                  <h3 className="text-lg font-black text-red-500 mb-1">Follow Us</h3>
+                  <h3 className="text-lg font-medium text-red-500 mb-1">Follow Us</h3>
                   <div className="flex gap-5 mt-3">
                     {/* Instagram */}
                     <a href="#" className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-red-500 hover:text-[#ffffff] hover:bg-[#ff2d46] shadow-sm transition-all transform hover:-translate-y-1">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
                     </a>
                     {/* Facebook */}
                     <a href="#" className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-red-500 hover:text-[#ffffff] hover:bg-[#ff2d46] shadow-sm transition-all transform hover:-translate-y-1">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
                     </a>
                     {/* LinkedIn */}
                     <a href="#" className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-red-500 hover:text-[#ffffff] hover:bg-[#ff2d46] shadow-sm transition-all transform hover:-translate-y-1">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-                    </a>
-                    {/* Twitter */}
-                    <a href="#" className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-red-500 hover:text-[#ffffff] hover:bg-[#ff2d46] shadow-sm transition-all transform hover:-translate-y-1">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
                     </a>
                   </div>
                 </div>
               </div>
-
             </div>
 
           </div>

@@ -24,7 +24,7 @@ const HowItWorks = () => {
     },
     {
       id: 3,
-      title: "Fast & Reliable Delivery",
+      title: "Fast Delivery",
       text: "Relax while we process and ship your order quickly, delivering your products directly to your doorstep.",
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -39,17 +39,17 @@ const HowItWorks = () => {
       <div className="container mx-auto px-4 md:px-8">
         {/* Header */}
         <div className="text-center mb-16 animate-fade-up">
-          <h2 className="text-[44px] md:text-[52px] font-[900] text-dark leading-tight mb-4">How It Works</h2>
-          <p className="text-gray-500 font-medium tracking-wide">A Simple Way to Shop for Printers & Supplies</p>
+          <h2 className="text-[44px] md:text-[52px] font-[900] text-dark leading-tight mb-4 tracking-tighter">How It Works</h2>
+          <p className="text-gray-500 font-bold tracking-wide">A Simple Way to Shop for Printers & Supplies</p>
         </div>
 
         {/* Content Card */}
-        <div className="bg-white rounded-[2rem] p-8 md:p-16 shadow-xl shadow-red-900/5 animate-fade-up">
+        <div className="bg-white rounded-[2rem] p-8 md:p-16 shadow-xl shadow-red-900/5 animate-fade-up border border-gray-50">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-0">
             {steps.map((step, index) => (
               <div 
                 key={step.id} 
-                className={`flex flex-col md:flex-row items-start gap-6 md:px-8 lg:px-12 ${
+                className={`flex flex-col md:flex-row items-center md:items-start text-center md:text-left gap-6 md:px-8 lg:px-12 ${
                   index !== steps.length - 1 ? 'md:border-r border-gray-100' : ''
                 }`}
               >
@@ -60,8 +60,8 @@ const HowItWorks = () => {
                 
                 {/* Text Content */}
                 <div className="flex-grow">
-                  <h3 className="text-[20px] font-bold text-dark mb-4 leading-none">{step.title}</h3>
-                  <p className="text-gray-500 text-[15px] leading-relaxed font-medium">
+                  <h3 className="text-[20px] font-bold text-dark mb-4 leading-none tracking-tight">{step.title}</h3>
+                  <p className="text-gray-500 text-[15px] leading-relaxed font-bold">
                     {step.text}
                   </p>
                 </div>
