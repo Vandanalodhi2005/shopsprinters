@@ -54,7 +54,7 @@ const AdminSettings = () => {
           showLogo:                data.showLogo !== false,
           allowModelSearch:        data.allowModelSearch !== false,
           allowCompleteSetup:      data.allowCompleteSetup !== false,
-          allowInstallationFailed: data.allowInstallationFailed === true,
+          allowInstallationFailed: data.allowInstallationFailed !== false,
         });
         setLoading(false);
       })

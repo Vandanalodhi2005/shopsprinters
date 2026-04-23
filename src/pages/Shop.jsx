@@ -8,7 +8,7 @@ const Shop = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState('Default sorting');
-  
+
   // Pagination State
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
@@ -44,7 +44,7 @@ const Shop = () => {
   };
 
   const allFilteredProducts = getSortedProducts();
-  
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentProducts = allFilteredProducts.slice(indexOfFirstItem, indexOfLastItem);
@@ -65,18 +65,18 @@ const Shop = () => {
   return (
     <main className="pt-32 pb-20 bg-white min-h-screen">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
-        
+
         {/* Page Title */}
         <h1 className="text-[34px] font-medium text-dark mb-10 tracking-tight text-center md:text-left">Shop</h1>
-        
+
         {/* Results Bar */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-12 border-t border-gray-100 pt-8 gap-4">
           <p className="text-[#6b6b6b] text-[15px] font-medium">
             Showing {indexOfFirstItem + 1}–{Math.min(indexOfLastItem, allFilteredProducts.length)} of {allFilteredProducts.length} results
           </p>
-          
+
           <div className="relative group">
-            <select 
+            <select
               value={sortBy}
               onChange={(e) => {
                 setSortBy(e.target.value);
@@ -106,8 +106,8 @@ const Shop = () => {
             const type = typeof product.category === 'object' ? product.category?.name : (product.category || 'Laser Printers');
 
             return (
-              <div 
-                key={product._id} 
+              <div
+                key={product._id}
                 className="group flex flex-col h-full cursor-pointer text-left"
                 onClick={() => navigate(`/product/${product._id}`)}
               >
@@ -117,8 +117,8 @@ const Shop = () => {
                       <span className="text-[10px] font-medium text-black opacity-60">Sale!</span>
                     </div>
                   )}
-                  
-                  <div 
+
+                  <div
                     onClick={(e) => handleQuickAdd(e, product)}
                     className="absolute top-4 right-4 w-10 h-10 bg-white border border-gray-100 rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0 z-20 hover:bg-[#ff2d46] hover:text-white text-dark"
                   >
@@ -127,13 +127,13 @@ const Shop = () => {
                     </svg>
                   </div>
 
-                  <img 
-                    src={product.images?.[0] || '/placeholder-printer.png'} 
-                    alt={name} 
-                    className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-110" 
+                  <img
+                    src={product.images?.[0] || '/placeholder-printer.png'}
+                    alt={name}
+                    className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-110"
                   />
                 </div>
-                
+
                 <div className="flex flex-col flex-1 px-1">
                   <h3 className="text-[15px] font-medium text-[#111] leading-[1.3] mb-1.5 line-clamp-2 min-h-[40px] group-hover:text-[#ff2d46] transition-colors">
                     {name}
@@ -159,22 +159,21 @@ const Shop = () => {
             {[...Array(totalPages)].map((_, i) => {
               const pageNum = i + 1;
               return (
-                <button 
+                <button
                   key={pageNum}
                   onClick={() => handlePageChange(pageNum)}
-                  className={`w-10 h-10 flex items-center justify-center text-[13px] font-medium border transition-all ${
-                    currentPage === pageNum 
-                      ? 'bg-dark text-white border-dark' 
+                  className={`w-10 h-10 flex items-center justify-center text-[13px] font-medium border transition-all ${currentPage === pageNum
+                      ? 'bg-dark text-white border-dark'
                       : 'border-gray-200 text-dark hover:border-black'
-                  }`}
+                    }`}
                 >
                   {pageNum}
                 </button>
               );
             })}
-            
+
             {currentPage < totalPages && (
-              <button 
+              <button
                 onClick={() => handlePageChange(currentPage + 1)}
                 className="w-10 h-10 flex items-center justify-center border border-gray-200 text-dark font-medium text-[13px] hover:border-black transition-all"
               >

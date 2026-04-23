@@ -14,7 +14,7 @@ const AdminDashboard = () => {
     useEffect(() => {
         const fetchAnalytics = async () => {
             try {
-                const response = await fetch(`${API_URL}/analytics`, {
+                const response = await fetch(`${API_URL}/dashboard/analytics`, {
                     headers: { 'Authorization': `Bearer ${user.token}` }
                 });
                 if (!response.ok) throw new Error('Failed to fetch analytics');

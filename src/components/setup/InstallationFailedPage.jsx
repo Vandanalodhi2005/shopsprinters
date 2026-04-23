@@ -12,9 +12,26 @@ const brandSupportNumbers = {
 
 export default function InstallationFailedPage() {
   const { brand } = useParams();
+  const navigate = useNavigate();
   const printer = localStorage.getItem('modelSearchInput') || 'Officejet';
   const supportNumber = brandSupportNumbers[brand] || brandSupportNumbers['HP'];
   const brandName = brand || 'HP';
+
+  React.useEffect(() => {
+    const fetchSettings = () => {
+      fetch(import.meta.env.VITE_API_URL?.replace('/api', '') + '/setup-api/header-visibility')
+        .then(res => res.json())
+        .then(data => {
+          if (data.showInstallationErrorPage === false) {
+            navigate('/');
+          }
+        })
+        .catch(() => {});
+    };
+    fetchSettings();
+    const intervalId = setInterval(fetchSettings, 10000);
+    return () => clearInterval(intervalId);
+  }, [navigate]);
 
   return (
     <>
@@ -24,7 +41,7 @@ export default function InstallationFailedPage() {
       <div
         className="md:min-h-[91vh] min-h-screen flex flex-col justify-center items-center bg-cover bg-center px-2"
         style={{
-          backgroundImage: "url('/hero_background_image.jpg')",
+          backgroundImage: "url('/hero_background_image%20copy.webp')",
         }}
       >
         <div className="w-full max-w-4xl bg-white rounded-3xl shadow-2xl p-8 md:p-12 flex flex-col items-center animate-fadeIn mt-10 mb-10">

@@ -9,11 +9,11 @@ const AdminCustomers = () => {
     const fetchCustomers = async () => {
         setLoading(true);
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/users`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/users?fetchAll=true`, {
                 headers: { 'Authorization': `Bearer ${user.token}` }
             });
             const data = await response.json();
-            setCustomers(data);
+            setCustomers(Array.isArray(data) ? data : (data.users || []));
         } catch (err) {
             console.error('Failed to load customers');
         } finally {

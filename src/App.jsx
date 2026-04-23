@@ -40,12 +40,20 @@ import PrinterSetupGuide from './pages/setup/PrinterSetupGuide';
 import MultiSelect from './components/setup/MultiSelect';
 import DynamicModelSearch from './components/setup/DynamicModelSearch';
 import CompleteSetup from './components/setup/CompleteSetup';
+import InstallationFailedPage from './components/setup/InstallationFailedPage';
 
 
 function App() {
   const location = useLocation();
   const isAdminPage = location.pathname.startsWith('/admin');
-  const isSetupPage = ['/easy-setup-guide', '/easy-setup-guide/', '/multi-select'].includes(location.pathname);
+  const isSetupPage = [
+    '/easy-setup-guide',
+    '/easy-setup-guide/',
+    '/multi-select',
+  ].includes(location.pathname)
+    || location.pathname.startsWith('/model-search/')
+    || location.pathname.startsWith('/complete-setup/')
+    || location.pathname.startsWith('/installation-failed/');
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -79,7 +87,9 @@ function App() {
           <Route path="/easy-setup-guide/" element={<PrinterSetupGuide />} />
           <Route path="/multi-select" element={<MultiSelect />} />
           <Route path="/model-search/:brand/" element={<DynamicModelSearch />} />
+          <Route path="/model-search/:brand" element={<DynamicModelSearch />} />
           <Route path="/complete-setup/:brand" element={<CompleteSetup />} />
+          <Route path="/installation-failed/:brand" element={<InstallationFailedPage />} />
           
 
 
@@ -97,7 +107,7 @@ function App() {
           </Route>
         </Routes>
       </div>
-      {!isAdminPage && <Footer />}
+      {!isAdminPage && !isSetupPage && <Footer />}
     </div>
   );
 }

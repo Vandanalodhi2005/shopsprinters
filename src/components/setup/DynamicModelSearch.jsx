@@ -6,7 +6,7 @@ const brandConfigs = {
   HP: {
     logo: "/hp-bg.png",
     placeholder: 'e.g. "OfficeJet 9010"',
-    bgImage: "/hero_background_image.jpg",
+    bgImage: "/hero_background_image%20copy.webp",
     searchButtonBgColor: "bg-blue-600",
     searchButtonTextColor: "text-white",
     searchButtonHoverColor: "bg-blue-700",
@@ -15,7 +15,7 @@ const brandConfigs = {
   Brother: {
     logo: "/brother-bg.png",
     placeholder: 'e.g. "HL-L2350DW"',
-    bgImage: "/hero_background_image.jpg",
+    bgImage: "/hero_background_image%20copy.webp",
      searchButtonBgColor: "bg-blue-900",
     searchButtonTextColor: "text-white",
     searchButtonHoverColor: "bg-blue-800",
@@ -23,7 +23,7 @@ const brandConfigs = {
   EPSON: {
     logo: "/epson-bg.png",
     placeholder: 'e.g. "EcoTank L3150"',
-    bgImage: "/hero_background_image.jpg",
+    bgImage: "/hero_background_image%20copy.webp",
      searchButtonBgColor: "bg-blue-950",
     searchButtonTextColor: "text-white",
     searchButtonHoverColor: "bg-blue-800",
@@ -42,10 +42,30 @@ const DynamicModelSearch = () => {
   const { brand } = useParams();
   const navigate = useNavigate();
   const config = brandConfigs[brand] || {};
+  const [allowCompleteSetup, setAllowCompleteSetup] = React.useState(true);
+
+  React.useEffect(() => {
+    const fetchSettings = () => {
+      fetch(import.meta.env.VITE_API_URL.replace('/api', '/setup-api/header-visibility'))
+        .then(res => res.json())
+        .then(data => setAllowCompleteSetup(data.showCompleteSetupPage !== false))
+        .catch(() => setAllowCompleteSetup(true));
+    };
+    fetchSettings();
+    const intervalId = setInterval(fetchSettings, 10000);
+    return () => clearInterval(intervalId);
+  }, []);
 
   const handleSearch = (model) => {
     localStorage.setItem('printerModel', model);
-    navigate(`/complete-setup/${brand}`);
+    if (allowCompleteSetup) {
+      navigate(`/complete-setup/${brand}`);
+    } else {
+      // If we skip complete setup, we might go straight to a progress/failed flow
+      // But DynamicModelSearch is a standalone page. Let's just go to installation-failed or progress.
+      // Easiest is to go back to the main guide which handles it
+      navigate('/easy-setup-guide');
+    }
   };
 
   return (

@@ -10,7 +10,7 @@ const AdminLayout = () => {
     // Auth Check
     useEffect(() => {
         if (!isAuthenticated || !user?.isAdmin) {
-            navigate('/login');
+            navigate('/admin-login');
         }
     }, [isAuthenticated, user, navigate]);
 

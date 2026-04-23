@@ -1,27 +1,32 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-const defaultSteps = [
-    {
-        label: 'Checking Device Compatibility',
-        right: 'Verified',
-        progress: 0,
-    },
-    {
-        label: 'Downloading Drivers (64-bit)',
-        right: 'Completed (145 MB)',
-        progress: 0,
-    },
-    {
-        label: 'Installing Package...',
-        right: 'Initializing Installation...',
-        progress: 0,
-    }
-];
-
-export default function SetupProgressModal({ open, onClose, printer = 'Officejet', user = 'User', onError }) {
+export default function SetupProgressModal({ open, onClose, printer = 'Officejet', user = 'Michal', onError }) {
     const modalRef = useRef(null);
-    const [stepStates, setStepStates] = useState(defaultSteps);
+    const [stepStates, setStepStates] = useState([]);
     const [activeStep, setActiveStep] = useState(0);
+
+    const modelsearchinput = localStorage.getItem('printerModel') || printer;
+
+    const defaultSteps = [
+        {
+            label: 'Checking Device Compatibility',
+            right: 'Verified',
+            progress: 0,
+            status: '',
+        },
+        {
+            label: `Downloading Drivers for ${modelsearchinput} (64-bit)`,
+            right: 'Completed (145 MB)',
+            progress: 0,
+            status: '',
+        },
+        {
+            label: 'Installing Package...',
+            right: 'Initializing Installation...',
+            progress: 0,
+            status: '',
+        }
+    ];
 
     useEffect(() => {
         if (!open) return;
@@ -33,55 +38,71 @@ export default function SetupProgressModal({ open, onClose, printer = 'Officejet
             setActiveStep(idx);
             setStepStates((prev) =>
                 prev.map((s, i) =>
-                    i < idx ? { ...s, progress: 100 } : i === idx ? { ...s, progress: 0 } : { ...s, progress: 0 }
+                    i < idx
+                        ? { ...s, progress: 100, status: 'done' }
+                        : i === idx
+                        ? { ...s, progress: 0, status: 'active' }
+                        : { ...s, progress: 0, status: '' }
                 )
             );
             let prog = 0;
             const interval = setInterval(() => {
                 prog += 5;
                 setStepStates((prev) =>
-                    prev.map((s, i) => i === idx ? { ...s, progress: Math.min(prog, 100) } : s)
+                    prev.map((s, i) =>
+                        i === idx ? { ...s, progress: Math.min(prog, 100), status: 'active' } : s
+                    )
                 );
-                
+                // For the last step, stop at 60% and trigger error after 6s
                 if (idx === 2 && prog >= 60) {
                     clearInterval(interval);
                     setStepStates((prev) =>
-                        prev.map((s, i) => i === idx ? { ...s, progress: 60 } : s)
+                        prev.map((s, i) =>
+                            i === idx ? { ...s, progress: 60, status: 'active' } : s
+                        )
                     );
                     timers.push(setTimeout(() => {
                         if (onError) onError();
-                    }, 4000));
+                    }, 6000));
                 } else if (prog >= 100) {
                     clearInterval(interval);
                     setStepStates((prev) =>
-                        prev.map((s, i) => i === idx ? { ...s, progress: 100 } : s)
+                        prev.map((s, i) =>
+                            i === idx ? { ...s, progress: 100, status: 'done' } : s
+                        )
                     );
                     if (idx < defaultSteps.length - 1) {
                         timers.push(setTimeout(() => animateStep(idx + 1), 700));
                     }
                 }
-            }, 30);
+            }, 25);
             timers.push(interval);
         }
 
         timers.push(setTimeout(() => animateStep(0), 400));
         return () => timers.forEach(clearInterval);
-    }, [open, onError]);
+    }, [open, printer, onError]);
+
+    useEffect(() => {
+        if (open && modalRef.current) {
+            modalRef.current.classList.remove('opacity-0', 'scale-95');
+            modalRef.current.classList.add('opacity-100', 'scale-100');
+        }
+    }, [open]);
 
     if (!open) return null;
 
+    // Modern modal UI
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-2">
             <div
                 ref={modalRef}
-                className="bg-white rounded-2xl shadow-2xl w-full max-w-xl min-w-[320px] sm:min-w-[420px] p-0 border border-gray-100 overflow-hidden"
+                className="transition-all duration-300 transform opacity-0 scale-95 bg-white rounded-2xl shadow-2xl w-full max-w-xl min-w-[420px] p-0 border border-gray-100"
             >
-                <div className="flex items-center px-8 py-5 border-b border-gray-100 bg-gray-50">
-                    <i className="fa-solid fa-gear text-blue-600 text-2xl mr-3 animate-spin-slow"></i>
+                <div className="flex items-center px-8 py-5 border-b border-gray-100 bg-gray-50 rounded-t-2xl">
+                    <i className="fa-solid fa-gear text-blue-600 text-2xl mr-3"></i>
                     <span className="font-semibold text-gray-800 text-lg tracking-wide">Device Setup Assistant</span>
-                    <button onClick={onClose} className="ml-auto text-gray-400 hover:text-gray-600 text-xl px-2">
-                      <i className="fa-solid fa-xmark"></i>
-                    </button>
+                    <button onClick={onClose} className="ml-auto text-gray-400 hover:text-gray-600 text-xl px-2 py-1 rounded transition"><i className="fa-solid fa-xmark"></i></button>
                 </div>
                 <div className="px-10 py-8">
                     <div className="flex items-center mb-6">
@@ -93,8 +114,8 @@ export default function SetupProgressModal({ open, onClose, printer = 'Officejet
                     </div>
                     <ol className="space-y-6">
                         {stepStates.map((step, idx) => (
-                            <li key={idx} className="flex items-center gap-4 text-left">
-                                <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-lg font-bold border-2 ${idx < activeStep ? 'bg-green-100 border-green-400 text-green-700' : idx === activeStep ? 'bg-blue-100 border-blue-400 text-blue-700' : 'bg-gray-100 border-gray-300 text-gray-400'}`}>
+                            <li key={idx} className="flex items-center gap-4">
+                                <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-lg font-bold border-2 ${idx < activeStep ? 'bg-green-100 border-green-400 text-green-700' : idx === activeStep ? 'bg-blue-100 border-blue-400 text-blue-700 animate-pulse' : 'bg-gray-100 border-gray-300 text-gray-400'}`}>
                                     {idx < activeStep ? <i className="fa-solid fa-check"></i> : idx + 1}
                                 </div>
                                 <div className="flex-1">

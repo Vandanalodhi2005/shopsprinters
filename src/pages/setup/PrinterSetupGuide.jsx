@@ -6,9 +6,17 @@ import ModelSearch from '../../components/setup/ModelSearch';
 import FinalStep from '../../components/setup/FinalStep';
 import SetupProgressModal from '../../components/setup/SetupProgressModal';
 import InstallationFailed from '../../components/setup/InstallationFailed';
+import SetupHeader from '../../components/setup/Header';
 
 const PrinterSetupGuide = () => {
   const [step, setStep] = useState('issue'); // issue, connection, model, final, progress, failed
+  const [settings, setSettings] = useState({
+    showHeader: true,
+    showLogo: true,
+    allowModelSearch: true,
+    allowCompleteSetup: true,
+    allowInstallationFailed: true
+  });
   const [setupData, setSetupData] = useState({
     issue: '',
     connection: '',
@@ -24,6 +32,29 @@ const PrinterSetupGuide = () => {
     window.scrollTo(0, 0);
   }, [step]);
 
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const response = await fetch(import.meta.env.VITE_API_URL.replace('/api', '/setup-api/header-visibility'));
+        if (response.ok) {
+          const data = await response.json();
+          setSettings({
+            showHeader: data.showHeader !== false,
+            showLogo: data.showLogo !== false,
+            allowModelSearch: data.allowModelSearch !== false,
+            allowCompleteSetup: data.showCompleteSetupPage !== false,
+            allowInstallationFailed: data.showInstallationErrorPage !== false
+          });
+        }
+      } catch (err) {
+        console.error('Failed to fetch settings', err);
+      }
+    };
+    fetchSettings();
+    const intervalId = setInterval(fetchSettings, 10000);
+    return () => clearInterval(intervalId);
+  }, []);
+
   const handleIssueSelect = (issue) => {
     setSetupData(prev => ({ ...prev, issue }));
     setStep('connection');
@@ -38,7 +69,11 @@ const PrinterSetupGuide = () => {
 
   const handleModelSearch = (model) => {
     setSetupData(prev => ({ ...prev, model }));
-    setStep('final');
+    if (settings.allowCompleteSetup) {
+      setStep('final');
+    } else {
+      setStep('progress');
+    }
   };
 
   const handleFinalSubmit = (formData) => {
@@ -89,6 +124,7 @@ const PrinterSetupGuide = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans antialiased text-gray-800">
+      {settings.showHeader && <SetupHeader showLogo={settings.showLogo} />}
       {/* Persistent Hero for the landing state */}
       {(step === 'issue' || step === 'connection') && renderHero()}
 
@@ -130,7 +166,14 @@ const PrinterSetupGuide = () => {
                     onClose={() => setStep('final')} 
                     printer={setupData.model} 
                     user={setupData.userName} 
-                    onError={() => setStep('failed')}
+                    onError={() => {
+                        if (settings.allowInstallationFailed) {
+                            setStep('failed');
+                        } else {
+                            alert("Installation completed successfully!");
+                            navigate('/');
+                        }
+                    }}
                 />
             )}
 

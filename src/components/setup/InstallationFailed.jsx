@@ -5,7 +5,7 @@ const InstallationFailed = ({ onChat, printer = 'Officejet' }) => {
     <div
       className="md:min-h-[91vh] min-h-screen flex flex-col justify-center items-center bg-cover bg-center px-2 py-12"
       style={{
-        backgroundImage: "url('/hero_background_image copy.webp')",
+        backgroundImage: "url('/hero_background_image%20copy.webp')",
       }}
     >
       <div className="w-full max-w-4xl bg-white rounded-3xl shadow-2xl p-8 md:p-12 flex flex-col items-center">

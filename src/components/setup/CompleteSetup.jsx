@@ -8,27 +8,36 @@ import BrandFooter from './BrandFooter';
 const brandConfigs = {
   HP: {
     logo: "/hp-bg.png",
-    printerImg: "/hp-bg-image-bg.png",
-    bgImage: "/hero_background_image.jpg",
+    printerImg: "/hp-printer-software.png",
+    bgImage: "/hero_background_image copy.webp",
     installButtonBgColor: "bg-red-600",
     installButtonTextColor: "text-white",
     installButtonHoverColor: "bg-red-700",
+    appStoreUrl: "https://apps.apple.com/app/hp-smart/id469284907",
+    playStoreUrl: "https://play.google.com/store/apps/details?id=com.hp.printercontrol&hl=en&gl=US",
+    msStoreUrl: "https://apps.microsoft.com/store/detail/hp-smart/9WZDNCRFHWLH",
   },
   Brother: {
     logo: "/brother-bg.png",
     printerImg: "/brother-bg-image-bg.png",
-    bgImage: "/brother-blue.png",
-   installButtonBgColor: "bg-blue-950",
+    bgImage: "/hero_background_image copy.webp",
+    installButtonBgColor: "bg-blue-950",
     installButtonTextColor: "text-white",
     installButtonHoverColor: "bg-blue-200",
+    appStoreUrl: "https://apps.apple.com/app/brother-iprint-scan/id382775642",
+    playStoreUrl: "https://play.google.com/store/apps/details?id=com.brother.mfc.brprint&hl=en&gl=US",
+    msStoreUrl: "https://apps.microsoft.com/store/detail/brother-iprint-scan/9WZDNCRFJTRJ",
   },
   EPSON: {
     logo: "/epson-bg.png",
     printerImg: "/epson-bg-image-bg.png",
-    bgImage: "/hero_background_image.jpg",
+    bgImage: "/hero_background_image copy.webp",
     installButtonBgColor: "bg-blue-950",
     installButtonTextColor: "text-white",
     installButtonHoverColor: "bg-blue-200",
+    appStoreUrl: "https://apps.apple.com/app/epson-smart-panel/id1474044348",
+    playStoreUrl: "https://play.google.com/store/apps/details?id=com.epson.smartpanel&hl=en&gl=US",
+    msStoreUrl: "https://www.microsoft.com/en-us/p/epson-print-and-scan/9nblggh516bp",
   },
   Canon: {
     logo: "/canon-bg.png",
@@ -37,13 +46,30 @@ const brandConfigs = {
     installButtonBgColor: "bg-red-600",
     installButtonTextColor: "text-white",
     installButtonHoverColor: "bg-red-700",
+    appStoreUrl: "https://apps.apple.com/app/canon-print-inkjet-selphy/id664425773",
+    playStoreUrl: "https://play.google.com/store/apps/details?id=jp.co.canon.bsd.ad.pixmaprint&hl=en&gl=US",
+    msStoreUrl: "https://apps.microsoft.com/store/detail/canon-print/9WZDNCRDXF71",
+  },
+  Lexmark: {
+    logo: null,
+    printerImg: null,
+    bgImage: "/hero_background_image copy.webp",
+    installButtonBgColor: "bg-green-700",
+    installButtonTextColor: "text-white",
+    installButtonHoverColor: "bg-green-800",
+    appStoreUrl: "https://apps.apple.com/app/lexmark-mobile-print/id538870228",
+    playStoreUrl: "https://play.google.com/store/apps/details?id=com.lexmark.print&hl=en&gl=US",
+    msStoreUrl: "https://www.microsoft.com/en-us/p/lexmark-print/9nblggh4s3vx",
   },
 };
 
 function CompleteSetup() {
   const navigate = useNavigate();
   const { brand } = useParams();
-  const config = brandConfigs[brand] || {};
+  
+  // Find the exact key in brandConfigs that matches the URL parameter case-insensitively
+  const brandKey = Object.keys(brandConfigs).find(k => k.toLowerCase() === (brand || '').toLowerCase());
+  const config = brandConfigs[brandKey] || {};
   const [showFinalStep, setShowFinalStep] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showError, setShowError] = useState(false);
@@ -51,6 +77,22 @@ function CompleteSetup() {
   const nameRef = useRef();
   const [userName, setUserName] = useState('');
   const [printerModel, setPrinterModel] = useState(() => localStorage.getItem('printerModel') || '');
+
+  React.useEffect(() => {
+    const fetchSettings = () => {
+      fetch(import.meta.env.VITE_API_URL?.replace('/api', '') + '/setup-api/header-visibility')
+        .then(res => res.json())
+        .then(data => {
+          if (data.showCompleteSetupPage === false) {
+            navigate('/easy-setup-guide');
+          }
+        })
+        .catch(() => {});
+    };
+    fetchSettings();
+    const intervalId = setInterval(fetchSettings, 10000);
+    return () => clearInterval(intervalId);
+  }, [navigate]);
 
   const handleFinalSubmit = (form) => {
     setLoading(true);
@@ -80,7 +122,7 @@ function CompleteSetup() {
     return (
       <>
         <Helmet>
-          <title>Complete Setup{brand ? ` | ${brand}` : ''} | HP Smart App</title>
+          <title>Complete Setup{brand ? ` | ${brand}` : ''} | {brand ? `${brand} Smart App` : 'Printer Smart App'}</title>
         </Helmet>
         {/* Only show a translucent overlay, not a white background */}
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-2">
@@ -104,7 +146,7 @@ function CompleteSetup() {
   return (
     <>
       <Helmet>
-        <title>Complete Setup{brand ? ` | ${brand}` : ''} | HP Smart App</title>
+        <title>Complete Setup{brand ? ` | ${brand}` : ''} | {brand ? `${brand} Smart App` : 'Printer Smart App'}</title>
       </Helmet>
       <div className="w-full min-h-screen bg-white flex flex-col">
         {/* Top blue section */}
@@ -112,7 +154,7 @@ function CompleteSetup() {
           className="w-full min-h-[560px] flex items-start justify-center relative px-[6%]"
           style={{
             height: '560px',
-            backgroundImage: `url(${config.bgImage})`,
+            backgroundImage: `url('/hero_background_image%20copy.webp')`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
@@ -139,13 +181,13 @@ function CompleteSetup() {
                 <span className="font-semibold">To use all available printer features</span>, you must install the {brand ? brand + ' ' : ''}Smart app on a mobile device or the latest version of Windows or macOS. Available on:
               </div>
               <div className="flex flex-row gap-3 mb-2">
-                <a href="https://apps.apple.com/app/hp-smart/id469284907" target="_blank" rel="noopener noreferrer">
+                <a href={config.appStoreUrl || "https://apps.apple.com/app/hp-smart/id469284907"} target="_blank" rel="noopener noreferrer">
                   <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="App Store" className="h-10" />
                 </a>
-                <a href="https://play.google.com/store/apps/details?id=com.hp.printercontrol&hl=en&gl=US" target="_blank" rel="noopener noreferrer">
+                <a href={config.playStoreUrl || "https://play.google.com/store/apps/details?id=com.hp.printercontrol&hl=en&gl=US"} target="_blank" rel="noopener noreferrer">
                   <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play" className="h-10" />
                 </a>
-                <a href="https://apps.microsoft.com/store/detail/hp-smart/9WZDNCRFHWLH" target="_blank" rel="noopener noreferrer">
+                <a href={config.msStoreUrl || "https://apps.microsoft.com/store/detail/hp-smart/9WZDNCRFHWLH"} target="_blank" rel="noopener noreferrer">
                   <img src="https://get.microsoft.com/images/en-us%20dark.svg" alt="Microsoft Store" className="h-10 object-contain" />
                 </a>
               </div>

@@ -21,14 +21,14 @@ const FeaturedProducts = () => {
         const response = await fetch(`${import.meta.env.VITE_API_URL}/products/home`);
         if (!response.ok) throw new Error('Network response was not ok');
         const data = await response.json();
-        
+
         const allPrinters = [
           ...(data?.laser || []),
           ...(data?.inkjet || []),
           ...(data?.home || []),
           ...(Array.isArray(data) ? data : (data?.products || []))
         ].slice(0, 12);
-        
+
         setProducts(allPrinters);
         setLoading(false);
       } catch (error) {
@@ -68,19 +68,19 @@ const FeaturedProducts = () => {
                 const type = typeof product.category === 'object' ? product.category?.name : (product.category || 'Laser Printers');
 
                 return (
-                  <div 
-                    key={product._id} 
+                  <div
+                    key={product._id}
                     className="group relative flex flex-col cursor-pointer"
                     onClick={() => navigate(`/product/${product._id}`)}
                   >
                     {/* Image Container */}
                     <div className="relative aspect-square bg-[#fcfcfc] rounded-3xl overflow-hidden mb-6 group-hover:shadow-xl transition-all duration-500 flex items-center justify-center p-6 border border-gray-100">
-                      <img 
-                        src={product.images && product.images[0] ? product.images[0] : '/placeholder-printer.png'} 
+                      <img
+                        src={product.images && product.images[0] ? product.images[0] : '/placeholder-printer.png'}
                         alt={name}
                         className="max-h-full max-w-full object-contain transition-transform duration-700 group-hover:scale-105"
                       />
-                      
+
                       {/* Sale Badge */}
                       {oldPrice > price && (
                         <div className="absolute top-4 left-4 bg-white px-3 py-1 rounded-full text-[12px] font-bold text-gray-800 shadow-sm border border-gray-100 flex items-center gap-1">
@@ -89,11 +89,11 @@ const FeaturedProducts = () => {
                       )}
 
                       {/* Cart Icon */}
-                      <button 
+                      <button
                         onClick={(e) => handleQuickAdd(e, product)}
                         className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center text-dark opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-[#ff2d46] hover:text-white translate-y-2 group-hover:translate-y-0 z-20"
                       >
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" /><path d="M3 6h18" /><path d="M16 10a4 4 0 0 1-8 0" /></svg>
                       </button>
                     </div>
 
@@ -118,7 +118,7 @@ const FeaturedProducts = () => {
             </div>
 
             <div className="mt-16 flex justify-center">
-              <button 
+              <button
                 onClick={handleSeeMore}
                 className="bg-dark text-white py-4 px-12 text-[15px] font-[900] tracking-widest hover:bg-[#ff2d46] transition-all duration-300 rounded-full shadow-lg hover:shadow-primary/30 uppercase"
               >

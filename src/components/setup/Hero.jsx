@@ -5,7 +5,7 @@ const Hero = () => {
     <section
       className="flex flex-col items-center justify-center text-center min-h-[320px] w-full"
       style={{
-        backgroundImage: "url('/hero_background_image.jpg')",
+        backgroundImage: "url('/hero_background_image%20copy.webp')",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',

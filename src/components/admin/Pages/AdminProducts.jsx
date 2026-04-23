@@ -225,7 +225,7 @@ const AdminProducts = () => {
                                         <td className="px-10 py-8">
                                             <div className="flex items-center gap-5">
                                                 <div className="w-16 h-16 rounded-2xl bg-gray-50 flex items-center justify-center p-3">
-                                                    <img src={product.images?.[0] || '/placeholder-printer.png'} className="max-h-full object-contain" />
+                                                    <img src={product.images?.[0] || '/printer-without-bg.png'} className="max-h-full object-contain" />
                                                 </div>
                                                 <div>
                                                     <p className="font-medium text-dark leading-snug line-clamp-1">{product.title}</p>

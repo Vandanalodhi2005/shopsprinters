@@ -16,7 +16,7 @@ const AdminOrders = () => {
                 headers: { 'Authorization': `Bearer ${user.token}` }
             });
             const data = await response.json();
-            setOrders(data);
+            setOrders(Array.isArray(data) ? data : (data.orders || []));
         } catch (err) {
             setError('Failed to load orders');
         } finally {
