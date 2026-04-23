@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 
-const Shop = ({ setPage }) => {
+const Shop = () => {
   const { addToCart } = useCart();
+  const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState('Default sorting');
@@ -14,7 +16,7 @@ const Shop = ({ setPage }) => {
   const handleQuickAdd = (e, product) => {
     e.stopPropagation();
     addToCart(product, 1);
-    setPage('cart');
+    navigate('/cart');
   };
 
   useEffect(() => {
@@ -35,8 +37,8 @@ const Shop = ({ setPage }) => {
 
   const getSortedProducts = () => {
     let sorted = Array.isArray(products) ? [...products] : [];
-    if (sortBy === 'Sort by price: low to high') sorted.sort((a, b) => (a.salePrice || 0) - (b.salePrice || 0));
-    if (sortBy === 'Sort by price: high to low') sorted.sort((a, b) => (b.salePrice || 0) - (a.salePrice || 0));
+    if (sortBy === 'Sort by price: low to high') sorted.sort((a, b) => (a.salePrice || a.price || 0) - (b.salePrice || b.price || 0));
+    if (sortBy === 'Sort by price: high to low') sorted.sort((a, b) => (b.salePrice || b.price || 0) - (a.salePrice || a.price || 0));
     if (sortBy === 'Sort by latest') sorted.reverse();
     return sorted;
   };
@@ -54,7 +56,7 @@ const Shop = ({ setPage }) => {
   };
 
   if (loading) return (
-    <div className="pt-40 flex flex-col items-center justify-center h-screen bg-white">
+    <div className="pt-40 flex flex-col items-center justify-center min-h-screen bg-white">
       <div className="w-12 h-12 border-4 border-[#ff2d46] border-t-transparent rounded-full animate-spin mb-4"></div>
       <p className="text-gray-500 font-medium">Loading Shop...</p>
     </div>
@@ -106,8 +108,8 @@ const Shop = ({ setPage }) => {
             return (
               <div 
                 key={product._id} 
-                className="group flex flex-col h-full cursor-pointer"
-                onClick={() => setPage(product._id)}
+                className="group flex flex-col h-full cursor-pointer text-left"
+                onClick={() => navigate(`/product/${product._id}`)}
               >
                 <div className="relative aspect-square mb-6 flex items-center justify-center p-8 transition-all duration-300">
                   {oldPrice > price && (
@@ -126,7 +128,7 @@ const Shop = ({ setPage }) => {
                   </div>
 
                   <img 
-                    src={product.images?.[0] || 'https://placehold.co/400x400'} 
+                    src={product.images?.[0] || '/placeholder-printer.png'} 
                     alt={name} 
                     className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-110" 
                   />

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 
-const TrackOrder = ({ setPage }) => {
+const TrackOrder = () => {
   const [orderId, setOrderId] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const handleTrack = async (e) => {
     e.preventDefault();
@@ -17,10 +19,9 @@ const TrackOrder = ({ setPage }) => {
       if (!response.ok) {
         throw new Error('Order not found. Please check your Order ID.');
       }
-      const data = await response.json();
       // If found, redirect to order details
       localStorage.setItem('lastTrackedOrder', orderId.trim());
-      setPage(`order-details-${orderId.trim()}`);
+      navigate(`/order-details/${orderId.trim()}`);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -77,7 +78,7 @@ const TrackOrder = ({ setPage }) => {
         </form>
 
         <div className="mt-12 text-sm text-gray-400 font-medium">
-          Need help? <button onClick={() => setPage('contact')} className="text-[#ff2d46] hover:underline">Contact Support</button>
+          Need help? <Link to="/contact" className="text-[#ff2d46] hover:underline">Contact Support</Link>
         </div>
       </div>
     </main>

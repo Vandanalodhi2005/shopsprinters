@@ -1,6 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-const QualitySection = ({ setPage }) => {
+const QualitySection = () => {
   return (
     <section className="relative w-full min-h-[600px] flex items-center overflow-hidden bg-gray-50 uppercase">
       {/* Background Image Container */}
@@ -26,8 +27,8 @@ const QualitySection = ({ setPage }) => {
             home users, students, small businesses, and office environments.
           </p>
 
-          <button 
-            onClick={() => setPage('shop')}
+          <Link 
+            to="/shop"
             className="inline-flex items-center gap-3 bg-[#ff2d46] text-white py-4 px-10 rounded-full font-black text-sm uppercase tracking-widest transition-all duration-300 hover:scale-105 hover:bg-dark group shadow-xl shadow-[#ff2d46]/20"
           >
             Shop Now
@@ -40,7 +41,7 @@ const QualitySection = ({ setPage }) => {
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
             </svg>
-          </button>
+          </Link>
         </div>
       </div>
     </section>

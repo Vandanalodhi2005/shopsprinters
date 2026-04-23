@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-const Login = ({ setPage }) => {
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -14,7 +16,7 @@ const Login = ({ setPage }) => {
     setError('');
     try {
       await login(email, password);
-      setPage('home');
+      navigate('/');
     } catch (err) {
       setError(err.message || 'Login failed');
     } finally {
@@ -31,7 +33,7 @@ const Login = ({ setPage }) => {
         <div className="bg-white rounded-[40px] border border-gray-100 shadow-xl p-10 md:p-14">
           <header className="text-center mb-12">
             <h1 className="text-4xl font-semibold text-dark mb-4 tracking-tight">Welcome <span className="text-[#ff2d46]">Back</span></h1>
-            <p className="text-gray-400 font-medium text-xs uppercase tracking-widest leading-relaxed">Enter your credentials to access your account</p>
+            <p className="text-gray-400 font-medium text-xs uppercase tracking-widest leading-relaxed text-center">Enter your credentials to access your account</p>
           </header>
 
           {error && (
@@ -67,13 +69,12 @@ const Login = ({ setPage }) => {
             </div>
 
             <div className="flex justify-end mb-8">
-              <button 
-                type="button" 
-                onClick={() => setPage('forgot-password')}
+              <Link 
+                to="/forgot-password"
                 className="text-[11px] font-semibold text-[#ff2d46] uppercase tracking-wider hover:text-dark transition-colors"
               >
                 Forgot Password?
-              </button>
+              </Link>
             </div>
 
             <button 
@@ -95,12 +96,12 @@ const Login = ({ setPage }) => {
           <div className="mt-12 pt-8 border-t border-gray-50 text-center">
             <p className="text-[13px] font-medium text-gray-400">
               New to Shops Printers? 
-              <button 
-                onClick={() => setPage('signup')}
+              <Link 
+                to="/signup"
                 className="text-[#ff2d46] ml-2 font-semibold uppercase tracking-wider hover:underline"
               >
                 Create Account
-              </button>
+              </Link>
             </p>
           </div>
         </div>

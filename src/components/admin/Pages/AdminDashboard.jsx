@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../../context/AuthContext';
+import { useNavigate, Link } from 'react-router-dom';
 
-const AdminDashboard = ({ setPage }) => {
+const AdminDashboard = () => {
     const { user } = useAuth();
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [analytics, setAnalytics] = useState(null);
     const [error, setError] = useState(null);
@@ -72,7 +74,7 @@ const AdminDashboard = ({ setPage }) => {
     };
 
     return (
-        <div className="space-y-10 animate-in fade-in duration-700 pb-10">
+        <div className="space-y-10 animate-in fade-in duration-700 pb-10 text-left">
             {/* Header */}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
                 <div>
@@ -115,7 +117,7 @@ const AdminDashboard = ({ setPage }) => {
                 <div className="lg:col-span-2 bg-white rounded-[40px] border border-gray-50 shadow-sm overflow-hidden">
                     <div className="p-10 flex justify-between items-center bg-gray-50/30">
                         <h2 className="font-medium text-xl text-dark tracking-tight">Recent Orders</h2>
-                        <button onClick={() => setPage('admin-orders')} className="text-xs text-[#ff2d46] font-medium uppercase tracking-widest hover:underline">View All</button>
+                        <Link to="/admin/orders" className="text-xs text-[#ff2d46] font-medium uppercase tracking-widest hover:underline">View All</Link>
                     </div>
                     <div className="overflow-x-auto px-6 pb-6">
                         <table className="w-full text-left text-sm">
@@ -133,7 +135,7 @@ const AdminDashboard = ({ setPage }) => {
                                     <tr><td colSpan="5" className="py-20 text-center text-gray-300 font-medium">Loading orders...</td></tr>
                                 ) : analytics?.recentOrders?.length > 0 ? (
                                     analytics.recentOrders.map((order) => (
-                                        <tr key={order._id} className="hover:bg-gray-50/50 transition-all cursor-pointer" onClick={() => setPage('admin-orders')}>
+                                        <tr key={order._id} className="hover:bg-gray-50/50 transition-all cursor-pointer" onClick={() => navigate('/admin/orders')}>
                                             <td className="px-6 py-6 font-medium text-dark">#{order._id.substring(order._id.length - 6).toUpperCase()}</td>
                                             <td className="px-6 py-6">
                                                 <div className="font-medium text-dark truncate max-w-[120px]">{order.user?.firstName || 'Guest'}</div>
@@ -162,18 +164,18 @@ const AdminDashboard = ({ setPage }) => {
                         <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-700"></div>
                         <h3 className="font-medium text-lg mb-8 relative z-10 tracking-tight">Quick Actions</h3>
                         <div className="space-y-4 relative z-10">
-                            <button onClick={() => setPage('admin-products')} className="w-full flex items-center justify-between p-4 rounded-2xl bg-white/5 hover:bg-white/10 transition-all border border-white/5">
+                            <Link to="/admin/products" className="w-full flex items-center justify-between p-4 rounded-2xl bg-white/5 hover:bg-white/10 transition-all border border-white/5 block">
                                 <span className="text-sm font-medium">Add New Product</span>
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                            </button>
-                            <button onClick={() => setPage('admin-orders')} className="w-full flex items-center justify-between p-4 rounded-2xl bg-white/5 hover:bg-white/10 transition-all border border-white/5">
+                            </Link>
+                            <Link to="/admin/orders" className="w-full flex items-center justify-between p-4 rounded-2xl bg-white/5 hover:bg-white/10 transition-all border border-white/5 block">
                                 <span className="text-sm font-medium">Review Pending Orders</span>
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                            </button>
-                            <button onClick={() => setPage('admin-chat')} className="w-full flex items-center justify-between p-4 rounded-2xl bg-white/5 hover:bg-white/10 transition-all border border-white/5">
+                            </Link>
+                            <Link to="/admin/chat" className="w-full flex items-center justify-between p-4 rounded-2xl bg-white/5 hover:bg-white/10 transition-all border border-white/5 block">
                                 <span className="text-sm font-medium">Customer Inquiries</span>
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                            </button>
+                            </Link>
                         </div>
                     </div>
                 </div>

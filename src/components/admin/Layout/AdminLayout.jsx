@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate, Outlet, Link } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
 import AdminSidebar from './AdminSidebar';
 
-const AdminLayout = ({ children, setPage, currentPage }) => {
+const AdminLayout = () => {
     const { user, logout, isAuthenticated } = useAuth();
+    const navigate = useNavigate();
     
     // Auth Check
     useEffect(() => {
         if (!isAuthenticated || !user?.isAdmin) {
-            setPage('login');
+            navigate('/login');
         }
-    }, [isAuthenticated, user, setPage]);
+    }, [isAuthenticated, user, navigate]);
 
     const [currentTime, setCurrentTime] = useState(new Date());
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -28,8 +30,6 @@ const AdminLayout = ({ children, setPage, currentPage }) => {
             <AdminSidebar 
                isOpen={isSidebarOpen} 
                setIsOpen={setIsSidebarOpen} 
-               currentPage={currentPage} 
-               setPage={setPage} 
                logout={logout}
             />
 
@@ -74,12 +74,12 @@ const AdminLayout = ({ children, setPage, currentPage }) => {
                                     <p className="text-[10px] font-medium text-gray-400 uppercase tracking-widest leading-none mb-1">Signed in as</p>
                                     <p className="text-[13px] font-medium text-dark truncate">{user.email}</p>
                                 </div>
-                                <button onClick={() => setPage('profile')} className="w-full text-left px-6 py-3.5 text-[14px] font-medium text-dark hover:bg-gray-50 flex items-center gap-3 transition-all">
+                                <Link to="/profile" className="w-full text-left px-6 py-3.5 text-[14px] font-medium text-dark hover:bg-gray-50 flex items-center gap-3 transition-all block">
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                                     My Profile
-                                </button>
+                                </Link>
                                 <div className="h-px bg-gray-50 my-2 mx-6"></div>
-                                <button onClick={() => { logout(); setPage('home'); }} className="w-full text-left px-6 py-3.5 text-[14px] font-medium text-red-500 hover:bg-red-50 flex items-center gap-3 transition-all">
+                                <button onClick={() => { logout(); navigate('/'); }} className="w-full text-left px-6 py-3.5 text-[14px] font-medium text-red-500 hover:bg-red-50 flex items-center gap-3 transition-all">
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
                                     Sign Out
                                 </button>
@@ -91,8 +91,8 @@ const AdminLayout = ({ children, setPage, currentPage }) => {
 
                 {/* Main Content Area */}
                 <main className="flex-1 overflow-y-auto p-8 lg:p-12">
-                   <div className="max-w-7xl mx-auto">
-                      {children}
+                   <div className="max-w-7xl mx-auto text-left">
+                      <Outlet />
                    </div>
                 </main>
             </div>

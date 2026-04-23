@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-const Contact = ({ setPage }) => {
+const Contact = () => {
   const [agreed, setAgreed] = useState(false);
 
   return (
@@ -8,10 +9,10 @@ const Contact = ({ setPage }) => {
       {/* Header Section */}
       <section className="pt-40 pb-20 bg-[#fdf2f2]">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h1 className="text-[30px] md:text-[54px] font-medium mb-6 leading-tight">
+          <h1 className="text-[30px] md:text-[54px] font-medium mb-6 leading-tight text-center">
             Contact Us
           </h1>
-          <p className="text-[#666] text-[17px] font-medium max-w-xl mx-auto leading-relaxed opacity-80">
+          <p className="text-[#666] text-[17px] font-medium max-w-xl mx-auto leading-relaxed opacity-80 text-center">
             We’re here to help with any questions about our products, orders, or
             printing support. Whether you need assistance choosing the right
             printer, tracking an order, or resolving a technical issue, our team is
@@ -22,7 +23,7 @@ const Contact = ({ setPage }) => {
 
       {/* Main Content */}
       <section className="py-20">
-        <div className="max-w-6xl mx-auto px-6">
+        <div className="max-w-6xl mx-auto px-6 text-left">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
             
             {/* Left Column: Form */}
@@ -65,9 +66,9 @@ const Contact = ({ setPage }) => {
                   />
                   <label htmlFor="contact-agreed" className="text-[11px] font-medium text-[#666] cursor-pointer leading-relaxed">
                     By submitting this form, you agree to our 
-                    <button type="button" onClick={() => setPage('privacy')} className="text-[#ff2d46] mx-1 hover:underline">Privacy Policy</button>, 
-                    <button type="button" onClick={() => setPage('terms')} className="text-[#ff2d46] mx-1 hover:underline">Terms & Conditions</button>, 
-                    <button type="button" onClick={() => setPage('refund-policy')} className="text-[#ff2d46] mx-1 hover:underline">Refund & Return Policy</button> 
+                    <Link to="/privacy-policy" className="text-[#ff2d46] mx-1 hover:underline">Privacy Policy</Link>, 
+                    <Link to="/terms-conditions" className="text-[#ff2d46] mx-1 hover:underline">Terms & Conditions</Link>, 
+                    <Link to="/refund-return-policy" className="text-[#ff2d46] mx-1 hover:underline">Refund & Return Policy</Link> 
                     and consent to us using your information to respond to your request.
                   </label>
                 </div>

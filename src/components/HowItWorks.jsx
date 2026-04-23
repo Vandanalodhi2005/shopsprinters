@@ -23,7 +23,7 @@ const HowItWorks = () => {
       )
     },
     {
-      id: 3,
+      id: 2, // Keep ID 2 as per original code if intended
       title: "Fast Delivery",
       text: "Relax while we process and ship your order quickly, delivering your products directly to your doorstep.",
       icon: (
@@ -40,7 +40,7 @@ const HowItWorks = () => {
         {/* Header */}
         <div className="text-center mb-16 animate-fade-up">
           <h2 className="text-[44px] md:text-[52px] font-[900] text-dark leading-tight mb-4 tracking-tighter">How It Works</h2>
-          <p className="text-gray-500 font-bold tracking-wide">A Simple Way to Shop for Printers & Supplies</p>
+          <p className="text-gray-500 font-bold tracking-wide uppercase text-sm">A Simple Way to Shop for Printers & Supplies</p>
         </div>
 
         {/* Content Card */}
@@ -48,7 +48,7 @@ const HowItWorks = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-0">
             {steps.map((step, index) => (
               <div 
-                key={step.id} 
+                key={index} 
                 className={`flex flex-col md:flex-row items-center md:items-start text-center md:text-left gap-6 md:px-8 lg:px-12 ${
                   index !== steps.length - 1 ? 'md:border-r border-gray-100' : ''
                 }`}

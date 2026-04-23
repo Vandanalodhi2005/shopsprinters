@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-const Signup = ({ setPage }) => {
+const Signup = () => {
   const [step, setStep] = useState(1); // 1: Info, 2: OTP
   const [formData, setFormData] = useState({
     firstName: '',
@@ -15,6 +16,7 @@ const Signup = ({ setPage }) => {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const { sendRegistrationOTP, verifyRegistrationOTP } = useAuth();
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -51,7 +53,7 @@ const Signup = ({ setPage }) => {
     try {
       await verifyRegistrationOTP(formData.email, otp);
       setMessage('Account verified successfully! Please log in.');
-      setTimeout(() => setPage('login'), 2000);
+      setTimeout(() => navigate('/login'), 2000);
     } catch (err) {
       setError(err.message || 'OTP verification failed');
     } finally {
@@ -65,13 +67,13 @@ const Signup = ({ setPage }) => {
   return (
     <main className="min-h-screen pt-40 pb-20 bg-[#fafafa] flex flex-col items-center justify-center">
       <div className="w-full max-w-xl px-6">
-        <div className="bg-white rounded-[40px] border border-gray-100 shadow-xl p-10 md:p-14">
+        <div className="bg-white rounded-[40px] border border-gray-100 shadow-xl p-10 md:p-14 text-center">
           <header className="text-center mb-12">
             <h1 className="text-4xl font-semibold text-dark mb-4 tracking-tight">
               {step === 1 ? 'Join the ' : 'Verify Your '}
               <span className="text-[#ff2d46]">{step === 1 ? 'Future' : 'Account'}</span>
             </h1>
-            <p className="text-gray-400 font-medium text-xs uppercase tracking-widest leading-relaxed">
+            <p className="text-gray-400 font-medium text-xs uppercase tracking-widest leading-relaxed text-center">
               {step === 1 ? 'Create your account for a personalized experience' : 'Enter the 6-digit code sent to your email'}
             </p>
           </header>
@@ -92,7 +94,7 @@ const Signup = ({ setPage }) => {
 
           {step === 1 ? (
             <form onSubmit={handleSendOTP}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
                 <div>
                   <label className={labelClass}>First Name</label>
                   <input name="firstName" required className={inputClass} placeholder="John" onChange={handleInputChange} value={formData.firstName} />
@@ -103,12 +105,12 @@ const Signup = ({ setPage }) => {
                 </div>
               </div>
 
-              <div>
+              <div className="text-left">
                 <label className={labelClass}>Email Address</label>
                 <input name="email" type="email" required className={inputClass} placeholder="john@example.com" onChange={handleInputChange} value={formData.email} />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
                 <div>
                   <label className={labelClass}>Password</label>
                   <input name="password" type="password" required className={inputClass} placeholder="••••••••" onChange={handleInputChange} value={formData.password} />
@@ -129,7 +131,7 @@ const Signup = ({ setPage }) => {
             </form>
           ) : (
             <form onSubmit={handleVerifyOTP}>
-              <div>
+              <div className="text-left">
                 <label className={labelClass}>Verification Code (OTP)</label>
                 <input 
                   type="text" 
@@ -163,12 +165,12 @@ const Signup = ({ setPage }) => {
           <div className="mt-12 pt-8 border-t border-gray-50 text-center">
             <p className="text-[13px] font-medium text-gray-400">
               Already have an account? 
-              <button 
-                onClick={() => setPage('login')}
+              <Link 
+                to="/login"
                 className="text-[#ff2d46] ml-2 font-semibold uppercase tracking-wider hover:underline"
               >
                 Sign In
-              </button>
+              </Link>
             </p>
           </div>
         </div>

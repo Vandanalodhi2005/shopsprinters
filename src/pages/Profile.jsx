@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-const Profile = ({ setPage }) => {
+const Profile = () => {
   const { user, logout, updateProfile, getOrders } = useAuth();
+  const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
@@ -18,7 +20,7 @@ const Profile = ({ setPage }) => {
 
   useEffect(() => {
     if (!user) {
-      setPage('login');
+      navigate('/login');
       return;
     }
 
@@ -34,7 +36,7 @@ const Profile = ({ setPage }) => {
     };
 
     fetchOrders();
-  }, [user, getOrders, setPage]);
+  }, [user, getOrders, navigate]);
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -62,6 +64,11 @@ const Profile = ({ setPage }) => {
     }
   };
 
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
   if (!user) return null;
 
   const inputClass = "w-full bg-gray-50 border border-gray-100 px-5 py-3.5 rounded-xl text-dark font-medium placeholder:text-gray-300 focus:border-[#ff2d46] focus:bg-white transition-all outline-none";
@@ -72,13 +79,13 @@ const Profile = ({ setPage }) => {
       <div className="max-w-6xl mx-auto px-6">
         
         {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-100 pb-10 mb-12">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-100 pb-10 mb-12 text-left">
           <div>
             <h1 className="text-3xl font-medium text-dark mb-2 tracking-tight">My Account</h1>
             <p className="text-gray-400 text-sm font-medium">Manage your personal information and track your orders</p>
           </div>
           <button 
-            onClick={() => { logout(); setPage('home'); }}
+            onClick={handleLogout}
             className="mt-4 md:mt-0 px-6 py-2.5 rounded-lg border border-gray-100 text-sm font-medium text-gray-500 hover:text-[#ff2d46] hover:bg-gray-100 transition-all flex items-center gap-2"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
@@ -89,7 +96,7 @@ const Profile = ({ setPage }) => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
           
           {/* Settings Section */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 text-left">
             <h2 className="text-xl font-medium text-dark mb-8">Personal Information</h2>
             
             <div className="space-y-10">
@@ -118,16 +125,16 @@ const Profile = ({ setPage }) => {
                   >
                     Edit Profile Details
                   </button>
-                  <button 
-                    onClick={() => setPage('track-order')}
+                  <Link 
+                    to="/track-order"
                     className="w-full py-3 bg-white border border-gray-100 text-dark rounded-xl text-sm font-medium hover:border-[#ff2d46] hover:text-[#ff2d46] transition-all shadow-sm flex items-center justify-center gap-2"
                   >
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 8l-2-2H5L3 8v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8z"/><path d="M10 12h4"/></svg>
                     Track a Specific Order
-                  </button>
+                  </Link>
                 </div>
               ) : (
-                <form onSubmit={handleUpdate} className="space-y-5 animate-fade-in text-left">
+                <form onSubmit={handleUpdate} className="space-y-5 animate-fade-in">
                   {message && <div className="p-3 bg-green-50 text-green-600 rounded-xl text-xs font-medium text-center">{message}</div>}
                   {error && <div className="p-3 bg-red-50 text-red-600 rounded-xl text-xs font-medium text-center">{error}</div>}
                   
@@ -162,7 +169,7 @@ const Profile = ({ setPage }) => {
           </div>
 
           {/* Activity Section */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 text-left">
             <h2 className="text-xl font-medium text-dark mb-8">Purchase History</h2>
             
             <div className="border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
@@ -178,12 +185,12 @@ const Profile = ({ setPage }) => {
                     </div>
                     <h3 className="text-lg font-medium text-dark mb-2">No orders found</h3>
                     <p className="text-gray-400 text-sm font-medium mb-8 max-w-xs mx-auto">Browse our shop to find the best printers for your office or home.</p>
-                    <button 
-                      onClick={() => setPage('shop')}
-                      className="px-8 py-3 bg-dark text-white rounded-xl text-sm font-medium hover:bg-[#ff2d46] transition-all"
+                    <Link 
+                      to="/shop"
+                      className="px-8 py-3 bg-dark text-white rounded-xl text-sm font-medium hover:bg-[#ff2d46] transition-all inline-block"
                     >
                        Start Shopping
-                    </button>
+                    </Link>
                  </div>
                ) : (
                  <div className="divide-y divide-gray-50">
@@ -212,13 +219,13 @@ const Profile = ({ setPage }) => {
                             {order.isDelivered ? 'Delivered' : 'In Transit'}
                           </div>
 
-                          <button 
-                            onClick={() => setPage(`order-details-${order._id}`)}
+                          <Link 
+                            to={`/order-details/${order._id}`}
                             className="w-10 h-10 rounded-xl border border-gray-100 flex items-center justify-center text-gray-400 hover:text-[#ff2d46] hover:border-[#ff2d46] transition-all bg-white"
                             title="Track Order"
                           >
                              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 8l-2-2H5L3 8v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8z"/><path d="M10 12h4"/></svg>
-                          </button>
+                          </Link>
                         </div>
                       </div>
                     ))}

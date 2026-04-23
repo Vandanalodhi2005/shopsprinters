@@ -5,12 +5,12 @@ import QualitySection from '../components/QualitySection';
 import Testimonials from '../components/Testimonials';
 import HowItWorks from '../components/HowItWorks';
 
-const Home = ({ setPage }) => {
+const Home = () => {
   return (
     <main>
       <Hero />
-      <FeaturedProducts setPage={setPage} />
-      <QualitySection setPage={setPage} />
+      <FeaturedProducts />
+      <QualitySection />
       <Testimonials />
       <HowItWorks />
     </main>

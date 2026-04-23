@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-const FAQs = ({ setPage }) => {
+const FAQs = () => {
   const [activeIndex, setActiveIndex] = useState(null);
 
   const toggleFAQ = (index) => {
@@ -66,7 +67,7 @@ const FAQs = ({ setPage }) => {
           <h1 className="text-[42px] md:text-[54px] font-medium text-dark mb-6 leading-tight">
             Frequently Asked Questions
           </h1>
-          <p className="text-[#666] text-[17px] font-medium max-w-2xl mx-auto leading-relaxed opacity-80">
+          <p className="text-[#666] text-[17px] font-medium max-w-2xl mx-auto leading-relaxed opacity-80 text-center">
             Find answers to common questions about our products, orders, and support services. 
             If you need further help, feel free to contact us anytime.
           </p>
@@ -75,7 +76,7 @@ const FAQs = ({ setPage }) => {
 
       {/* Accordion Section */}
       <section className="py-20">
-        <div className="max-w-4xl mx-auto px-6">
+        <div className="max-w-4xl mx-auto px-6 text-left">
           <div className="space-y-0 border-t border-gray-100">
             {faqData.map((item, index) => (
               <div key={index} className="border-b border-gray-100">
@@ -104,14 +105,14 @@ const FAQs = ({ setPage }) => {
           </div>
 
           <div className="mt-20 text-center bg-[#fdf2f2]/30 p-12 rounded-[40px] border border-gray-50">
-             <h3 className="text-2xl font-medium text-dark mb-4">Still have questions?</h3>
-             <p className="text-[#666] mb-8 font-medium opacity-80">We're here to help you get the most out of your printing experience.</p>
-             <button 
-                onClick={() => setPage('contact')}
-                className="bg-dark text-white font-medium px-10 py-4 rounded-full uppercase text-sm tracking-widest hover:bg-[#ff2d46] transition-all transform hover:-translate-y-1 shadow-lg shadow-black/10"
+             <h3 className="text-2xl font-medium text-dark mb-4 text-center">Still have questions?</h3>
+             <p className="text-[#666] mb-8 font-medium opacity-80 text-center">We're here to help you get the most out of your printing experience.</p>
+             <Link 
+                to="/contact"
+                className="bg-dark text-white font-medium px-10 py-4 rounded-full uppercase text-sm tracking-widest hover:bg-[#ff2d46] transition-all transform hover:-translate-y-1 shadow-lg shadow-black/10 inline-block"
              >
                 Contact Support
-             </button>
+             </Link>
           </div>
         </div>
       </section>

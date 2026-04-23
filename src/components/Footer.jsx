@@ -1,31 +1,27 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-const Footer = ({ setPage }) => {
-  const handleNavClick = (id) => {
-    setPage(id);
-    window.scrollTo(0, 0);
-  };
-
+const Footer = () => {
   const quickLinks = [
-    { name: 'Home', id: 'home' },
-    { name: 'About Us', id: 'about' },
-    { name: 'Shop', id: 'shop' },
-    { name: 'Track Order', id: 'track-order' },
-    { name: 'My account', id: 'account' },
-    { name: 'Blog', id: 'blog' },
-    { name: "FAQ's", id: 'faqs' },
-    { name: 'Contact Us', id: 'contact' },
+    { name: 'Home', path: '/' },
+    { name: 'About Us', path: '/about' },
+    { name: 'Shop', path: '/shop' },
+    { name: 'Track Order', path: '/track-order' },
+    { name: 'My account', path: '/profile' },
+    { name: 'Blog', path: '#' },
+    { name: "FAQ's", path: '/faqs' },
+    { name: 'Contact Us', path: '/contact' },
   ];
 
   const importantLinks = [
-    { name: 'Privacy Policy', id: 'privacy' },
-    { name: 'Terms and Conditions', id: 'terms' },
-    { name: 'Refund and Return Policy', id: 'refund-policy' },
-    { name: 'Shipping & Delivery Policy', id: 'shipping' },
-    { name: 'Accessibility Statement', id: 'accessibility' },
-    { name: 'Cookie Policy', id: 'cookie-policy' },
-    { name: 'Disclaimer', id: 'disclaimer' },
-    { name: 'Printer Setup Guide', id: 'easy-setup-guide' },
+    { name: 'Privacy Policy', path: '/privacy-policy' },
+    { name: 'Terms and Conditions', path: '/terms-conditions' },
+    { name: 'Refund and Return Policy', path: '/refund-return-policy' },
+    { name: 'Shipping & Delivery Policy', path: '/shipping-delivery-policy' },
+    { name: 'Accessibility Statement', path: '/accessibility-statement' },
+    { name: 'Cookie Policy', path: '/cookie-policy' },
+    { name: 'Disclaimer', path: '/disclaimer' },
+    { name: 'Printer Setup Guide', path: '/easy-setup-guide' },
   ];
 
   return (
@@ -33,13 +29,13 @@ const Footer = ({ setPage }) => {
       <div className="container mx-auto px-4 md:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
         {/* Brand Section */}
         <div className="space-y-6">
-          <button onClick={() => handleNavClick('home')} className="flex items-center group">
+          <Link to="/" className="flex items-center group block">
             <img 
               src="/Shops-Printers-White-Logo.png" 
               alt="ShopsPrinters Logo" 
               className="h-10 w-auto object-contain transition-opacity group-hover:opacity-80" 
             />
-          </button>
+          </Link>
           <p className="text-gray-200 text-md leading-relaxed max-w-xs font-medium">
             Your trusted online source for printers, ink, toner, and printing supplies—delivering genuine products, fast shipping, and reliable services.
           </p>
@@ -60,23 +56,15 @@ const Footer = ({ setPage }) => {
         <div>
           <h4 className="text-[17px] font-medium mb-8 tracking-wide text-white">Quick Links</h4>
           <ul className="space-y-4">
-            {quickLinks.map((link) => (
-              <li key={link.id}>
-                {link.id === 'easy-setup-guide' ? (
-                  <a 
-                    href="/easy-setup-guide/" 
-                    className="text-md font-medium text-gray-200 hover:text-[#ff2d46] transition-colors"
-                  >
-                    {link.name}
-                  </a>
-                ) : (
-                  <button 
-                    onClick={() => handleNavClick(link.id)} 
-                    className="text-md font-medium text-gray-200 hover:text-[#ff2d46] transition-colors"
-                  >
-                    {link.name}
-                  </button>
-                )}
+            {quickLinks.map((link, index) => (
+              <li key={index}>
+                <Link 
+                  to={link.path} 
+                  className="text-md font-medium text-gray-200 hover:text-[#ff2d46] transition-colors"
+                  onClick={() => window.scrollTo(0, 0)}
+                >
+                  {link.name}
+                </Link>
               </li>
             ))}
           </ul>
@@ -86,14 +74,15 @@ const Footer = ({ setPage }) => {
         <div>
           <h4 className="text-[17px] font-medium mb-8 tracking-wide text-white">Important Links</h4>
           <ul className="space-y-4">
-            {importantLinks.map((link) => (
-              <li key={link.id}>
-                <button 
-                  onClick={() => handleNavClick(link.id)} 
+            {importantLinks.map((link, index) => (
+              <li key={index}>
+                <Link 
+                  to={link.path} 
                   className="text-md font-medium text-gray-200 hover:text-[#ff2d46] transition-colors"
+                  onClick={() => window.scrollTo(0, 0)}
                 >
                   {link.name}
-                </button>
+                </Link>
               </li>
             ))}
           </ul>
@@ -124,12 +113,13 @@ const Footer = ({ setPage }) => {
 
       <div className="container mx-auto px-4 md:px-8 pt-8 border-t border-gray-900 flex flex-col md:flex-row justify-between items-center gap-4 text-gray-200 text-[15px] font-medium">
         <p>Copyright © 2026 Shops Printers All rights reserved</p>
-        <button 
-          onClick={() => handleNavClick('do-not-sell')} 
+        <Link 
+          to="/do-not-sell" 
           className="hover:text-[#ff2d46] transition-colors"
+          onClick={() => window.scrollTo(0, 0)}
         >
           Do Not Sell or Share My Personal Information
-        </button>
+        </Link>
       </div>
     </footer>
   );

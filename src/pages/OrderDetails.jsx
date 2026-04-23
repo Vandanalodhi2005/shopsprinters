@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 
-const OrderDetails = ({ orderId, setPage }) => {
+const OrderDetails = () => {
+  const { orderId: paramOrderId } = useParams();
+  const navigate = useNavigate();
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -8,13 +11,12 @@ const OrderDetails = ({ orderId, setPage }) => {
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const urlId = orderId || localStorage.getItem('lastTrackedOrder');
-        if (!urlId) {
-          setPage('track-order');
+        const id = paramOrderId || localStorage.getItem('lastTrackedOrder');
+        if (!id) {
+          navigate('/track-order');
           return;
         }
 
-        const id = urlId.includes('order-details-') ? urlId.replace('order-details-', '') : urlId;
         const response = await fetch(`${import.meta.env.VITE_API_URL}/orders/${id}`);
         if (!response.ok) throw new Error('Order not found');
         const data = await response.json();
@@ -27,7 +29,7 @@ const OrderDetails = ({ orderId, setPage }) => {
     };
 
     fetchOrder();
-  }, [orderId, setPage]);
+  }, [paramOrderId, navigate]);
 
   if (loading) {
     return (
@@ -45,7 +47,7 @@ const OrderDetails = ({ orderId, setPage }) => {
         </div>
         <h2 className="text-2xl font-medium text-dark mb-4">Error loading order</h2>
         <p className="text-gray-500 mb-8 max-w-sm font-medium">{error || 'Something went wrong while fetching order details.'}</p>
-        <button onClick={() => setPage('track-order')} className="bg-dark text-white px-8 py-3 rounded-xl font-medium text-sm hover:bg-[#ff2d46] transition-all">Back to Tracking</button>
+        <Link to="/track-order" className="bg-dark text-white px-8 py-3 rounded-xl font-medium text-sm hover:bg-[#ff2d46] transition-all">Back to Tracking</Link>
       </div>
     );
   }
@@ -63,9 +65,9 @@ const OrderDetails = ({ orderId, setPage }) => {
         
         {/* Navigation Breadcrumb */}
         <div className="flex items-center gap-4 text-xs font-medium text-gray-400 mb-10 transition-all">
-           <button onClick={() => setPage('home')} className="hover:text-dark">Home</button>
+           <Link to="/" className="hover:text-dark">Home</Link>
            <span>/</span>
-           <button onClick={() => setPage('track-order')} className="hover:text-dark">Tracking</button>
+           <Link to="/track-order" className="hover:text-dark">Tracking</Link>
            <span>/</span>
            <span className="text-[#ff2d46]">Order #{order._id.slice(-8).toUpperCase()}</span>
         </div>
@@ -175,7 +177,7 @@ const OrderDetails = ({ orderId, setPage }) => {
                  <div className="space-y-6 relative z-10">
                     <div className="flex justify-between text-sm font-medium text-white/60">
                        <span>Subtotal</span>
-                       <span>${(order.totalPrice - order.shippingPrice - order.taxPrice).toFixed(2)}</span>
+                       <span>${(order.totalPrice - (order.shippingPrice || 0) - order.taxPrice).toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between text-sm font-medium text-white/60">
                        <span>Shipping Fee</span>

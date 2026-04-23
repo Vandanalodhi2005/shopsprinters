@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 
-const ProductDetails = ({ productId, setPage }) => {
+const ProductDetails = () => {
+  const { id: productId } = useParams();
+  const navigate = useNavigate();
   const { addToCart } = useCart();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -11,12 +14,12 @@ const ProductDetails = ({ productId, setPage }) => {
 
   const handleAddToCart = () => {
     addToCart(product, quantity);
-    setPage('cart');
+    navigate('/cart');
   };
 
   const handleBuyNow = () => {
     addToCart(product, quantity);
-    setPage('checkout');
+    navigate('/checkout');
   };
 
   useEffect(() => {
@@ -52,12 +55,12 @@ const ProductDetails = ({ productId, setPage }) => {
       <div className="min-h-screen flex flex-col items-center justify-center pt-24 px-6 text-center">
         <h2 className="text-3xl font-medium text-dark mb-4">Product Not Found</h2>
         <p className="text-gray-500 mb-8 max-w-md font-medium">Sorry, we couldn't find the printer you're looking for. It might have been removed or the link is incorrect.</p>
-        <button 
-          onClick={() => setPage('shop')}
-          className="bg-dark text-white px-10 py-4 rounded-full font-medium hover:bg-[#ff2d46] transition-all"
+        <Link 
+          to="/shop"
+          className="bg-dark text-white px-10 py-4 rounded-full font-medium hover:bg-[#ff2d46] transition-all block"
         >
           Back to Shop
-        </button>
+        </Link>
       </div>
     );
   }
@@ -74,9 +77,9 @@ const ProductDetails = ({ productId, setPage }) => {
         
         {/* Breadcrumb */}
         <nav className="flex items-center gap-3 text-[12px] font-medium text-[#999] mb-12">
-          <button onClick={() => setPage('home')} className="hover:text-dark">Home</button>
+          <Link to="/" className="hover:text-dark">Home</Link>
           <span>/</span>
-          <button onClick={() => setPage('shop')} className="hover:text-dark">Shop</button>
+          <Link to="/shop" className="hover:text-dark">Shop</Link>
           <span>/</span>
           <span className="text-dark truncate max-w-[200px]">{name}</span>
         </nav>
@@ -128,7 +131,7 @@ const ProductDetails = ({ productId, setPage }) => {
             </h1>
 
             {/* Price */}
-            <div className="flex items-center gap-6 mb-8 lg:mb-12">
+            <div className="flex items-center gap-6 mb-8 lg:mb-12 text-left">
               <span className="text-4xl font-medium text-dark tracking-tighter">
                 ${price.toFixed(2)}
               </span>
@@ -145,7 +148,7 @@ const ProductDetails = ({ productId, setPage }) => {
             </div>
 
             {/* Short Info */}
-            <div className="space-y-6 mb-10">
+            <div className="space-y-6 mb-10 text-left">
                <div className="flex items-center gap-4 text-gray-600">
                   <div className="w-12 h-12 rounded-full bg-[#fdf2f2] flex items-center justify-center text-[#ff2d46]">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
@@ -168,7 +171,7 @@ const ProductDetails = ({ productId, setPage }) => {
             </div>
 
             {/* Quantity Selector */}
-            <div className="flex items-center gap-6 mb-10">
+            <div className="flex items-center gap-6 mb-10 text-left">
                <span className="text-xs font-medium text-gray-400 uppercase tracking-widest">Quantity</span>
                <div className="flex items-center bg-[#fcfcfc] rounded-2xl border border-gray-100 p-1">
                   <button 
@@ -221,9 +224,9 @@ const ProductDetails = ({ productId, setPage }) => {
                </div>
 
                {/* Tab Content */}
-               <div className="p-8 md:p-12 lg:p-16">
+               <div className="p-8 md:p-12 lg:p-16 text-left">
                   {activeTab === 'overview' && (
-                    <div className="max-w-4xl prose prose-sm prose-gray leading-relaxed text-gray-500 font-medium text-left">
+                    <div className="max-w-4xl prose prose-sm prose-gray leading-relaxed text-gray-500 font-medium">
                        <h2 className="text-xl font-medium text-dark mb-6 tracking-tight">About this product</h2>
                        {product.overview ? (
                          <div dangerouslySetInnerHTML={{ __html: product.overview }} />
@@ -236,7 +239,7 @@ const ProductDetails = ({ productId, setPage }) => {
                   )}
 
                   {activeTab === 'specifications' && (
-                    <div className="max-w-5xl overflow-x-auto text-left">
+                    <div className="max-w-5xl overflow-x-auto">
                        <h2 className="text-xl font-medium text-dark mb-6 tracking-tight">Technical Specifications</h2>
                        {product.technicalSpecification ? (
                          <div 
@@ -252,7 +255,7 @@ const ProductDetails = ({ productId, setPage }) => {
                   )}
 
                   {activeTab === 'reviews' && (
-                    <div className="max-w-4xl text-left">
+                    <div className="max-w-4xl">
                        <div className="flex items-center justify-between mb-10">
                           <h2 className="text-xl font-medium text-dark tracking-tight">Customer Reviews</h2>
                           <div className="flex items-center gap-2">

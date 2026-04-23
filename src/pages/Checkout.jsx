@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 
-const Checkout = ({ setPage }) => {
+const Checkout = () => {
   const { cart, cartTotal, clearCart } = useCart();
   const { user, isAuthenticated } = useAuth();
+  const navigate = useNavigate();
   const [step, setStep] = useState(1); // 1: Shipping, 2: Payment
   const [loading, setLoading] = useState(false);
   
@@ -143,7 +145,7 @@ const Checkout = ({ setPage }) => {
       setTimeout(() => {
         clearCart();
         alert('Order placed successfully!');
-        setPage('home');
+        navigate('/');
       }, 1500);
 
     } catch (error) {
@@ -152,7 +154,7 @@ const Checkout = ({ setPage }) => {
     }
   };
 
-  if (!isAuthenticated) return null; // Logic in App.jsx should handle this, but being safe
+  if (!isAuthenticated) return null;
 
   const subtotal = cartTotal;
   const tax = Number((subtotal * 0.08).toFixed(2));
@@ -176,13 +178,13 @@ const Checkout = ({ setPage }) => {
             {step === 1 ? (
               <div className="bg-white rounded-[40px] border border-gray-100 shadow-sm p-10 md:p-14">
                 <header className="mb-12">
-                   <button 
-                     onClick={() => setPage('cart')} 
+                   <Link 
+                     to="/cart" 
                      className="flex items-center gap-2 text-[11px] font-medium text-gray-400 uppercase tracking-widest hover:text-[#ff2d46] transition-colors mb-6 group"
                    >
                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="group-hover:-translate-x-1 transition-transform"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
                      Back to Cart
-                   </button>
+                   </Link>
                    <div className="flex items-center gap-4">
                      <div className="w-12 h-12 rounded-2xl bg-[#fdf2f2] flex items-center justify-center text-[#ff2d46]">
                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -379,10 +381,10 @@ const Checkout = ({ setPage }) => {
                      />
                      <label htmlFor="terms-checkbox" className="text-[12px] font-medium text-gray-500 cursor-pointer select-none leading-relaxed">
                        By placing your order, you confirm that you have read and agree to our 
-                       <button onClick={(e) => { e.preventDefault(); setPage('terms'); }} className="text-[#ff2d46] mx-1 hover:underline">Terms & Conditions</button>, 
-                       <button onClick={(e) => { e.preventDefault(); setPage('refund-policy'); }} className="text-[#ff2d46] mx-1 hover:underline">Refund & Return Policy</button> 
+                       <Link to="/terms-conditions" className="text-[#ff2d46] mx-1 hover:underline">Terms & Conditions</Link>, 
+                       <Link to="/refund-return-policy" className="text-[#ff2d46] mx-1 hover:underline">Refund & Return Policy</Link> 
                        and understand how your personal information is used as described in our 
-                       <button onClick={(e) => { e.preventDefault(); setPage('privacy'); }} className="text-[#ff2d46] mx-1 hover:underline">Privacy Policy</button>.
+                       <Link to="/privacy-policy" className="text-[#ff2d46] mx-1 hover:underline">Privacy Policy</Link>.
                      </label>
                    </div>
 

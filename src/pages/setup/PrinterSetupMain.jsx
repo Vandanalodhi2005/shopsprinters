@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import '../../index.css';
+import '../../styles.css';
 import SetupHeader from './SetupHeader';
 import Footer from '../../components/Footer';
 import { AuthProvider } from '../../context/AuthContext';
 import { CartProvider } from '../../context/CartContext';
+import { BrowserRouter } from 'react-router-dom';
 
-// Simplified IssueSelector logic from PrintsMatrix
+// Simplified IssueSelector logic
 const IssueSelector = ({ setStep }) => {
   const issues = [
     { label: 'Set Up a New Printer', iconPath: "M20 7H4c-1.1 0-2 .9-2 2v5c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zM4 9h16v5H4V9zm2 12h12V17H6v4zM18 2H6v4h12V2z" },
@@ -67,7 +68,7 @@ const ConnectionSelector = ({ setStep }) => {
         {connections.map((conn) => (
           <button 
             key={conn.label}
-            onClick={() => window.location.href = '/'}
+            onClick={() => window.location.href = '/multi-select'}
             className="flex flex-col items-center justify-center border border-gray-200 rounded-lg py-8 px-4 hover:bg-blue-50 transition-all font-bold text-gray-700"
           >
             {conn.label}
@@ -83,14 +84,14 @@ const SetupPage = () => {
 
   return (
     <div className="min-h-screen bg-[#f9fafb]">
-      <SetupHeader step={1} />
+      {/* <SetupHeader step={1} /> */}
       
       <main className="container mx-auto px-4 md:px-20 py-12">
         <div className="text-center mb-12">
-           <h1 className="text-3xl md:text-5xl font-extrabold text-[#101721] mb-6">
+           <h1 className="text-3xl md:text-5xl font-extrabold text-[#101721] mb-6 text-center">
               Fast & Simple Printer Setup Guide
            </h1>
-           <p className="max-w-4xl mx-auto text-dark font-medium leading-relaxed">
+           <p className="max-w-4xl mx-auto text-dark font-medium leading-relaxed text-center">
               Start your printer setup right here. Our streamlined guide walks you through downloading drivers and connecting to Wi-Fi to ensure your printer is configured and ready to print without the hassle.
            </p>
         </div>
@@ -119,11 +120,11 @@ const SetupPage = () => {
            <div>
              <h2 className="text-blue-800 font-bold text-xl md:text-2xl mb-6">Easy Printer Setup and Installation</h2>
              <div className="grid md:grid-cols-2 gap-10">
-                <div className="space-y-4">
+                <div className="space-y-4 text-left">
                    <h4 className="font-bold text-lg">Step 1: Unbox & Prepare</h4>
                    <p className="text-sm">Remove all protective tapes, internal locks, and packaging materials.</p>
                 </div>
-                <div className="space-y-4">
+                <div className="space-y-4 text-left">
                    <h4 className="font-bold text-lg">Step 2: Power On</h4>
                    <p className="text-sm">Plug into wall outlet and select language preferences on display.</p>
                 </div>
@@ -132,17 +133,19 @@ const SetupPage = () => {
         </div>
       </main>
 
-      <Footer setPage={() => window.location.href = '/'} />
+      <Footer />
     </div>
   );
 };
 
 ReactDOM.createRoot(document.getElementById('printer-setup-root')).render(
   <React.StrictMode>
-    <AuthProvider>
-      <CartProvider>
-        <SetupPage />
-      </CartProvider>
-    </AuthProvider>
+    <BrowserRouter>
+      <AuthProvider>
+        <CartProvider>
+          <SetupPage />
+        </CartProvider>
+      </AuthProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );

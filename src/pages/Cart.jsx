@@ -1,8 +1,10 @@
 import React from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 
-const Cart = ({ setPage }) => {
+const Cart = () => {
   const { cart, removeFromCart, updateQuantity, cartTotal, clearCart } = useCart();
+  const navigate = useNavigate();
 
   if (cart.length === 0) {
     return (
@@ -15,13 +17,13 @@ const Cart = ({ setPage }) => {
           </div>
           <h2 className="text-4xl font-medium text-dark mb-6">Your cart is empty</h2>
           <p className="text-gray-500 mb-12 max-w-md mx-auto font-medium">It looks like you haven't added any premium printers to your cart yet. Explore our shop to find the perfect match for your needs.</p>
-          <button 
-            onClick={() => setPage('shop')}
-            className="bg-dark text-white px-12 py-5 rounded-[20px] font-medium hover:bg-[#ff2d46] transition-all shadow-lg shadow-black/10 flex items-center gap-3 mx-auto"
+          <Link 
+            to="/shop"
+            className="bg-dark text-white px-12 py-5 rounded-[20px] font-medium hover:bg-[#ff2d46] transition-all shadow-lg shadow-black/10 flex items-center gap-3 mx-auto w-fit"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
             Continue Shopping
-          </button>
+          </Link>
         </div>
       </main>
     );
@@ -95,13 +97,13 @@ const Cart = ({ setPage }) => {
             </div>
 
             <div className="mt-8 flex flex-col md:flex-row items-center justify-between gap-6 p-4">
-               <button 
-                onClick={() => setPage('shop')}
+               <Link 
+                to="/shop"
                 className="text-[12px] font-medium text-gray-400 hover:text-dark transition-colors uppercase tracking-widest flex items-center gap-3"
                >
                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
                  Continue Shopping
-               </button>
+               </Link>
                <button 
                 onClick={clearCart}
                 className="text-[12px] font-medium text-gray-400 hover:text-[#ff2d46] transition-colors uppercase tracking-widest"
@@ -138,13 +140,13 @@ const Cart = ({ setPage }) => {
                 </div>
               </div>
 
-              <button 
-                onClick={() => setPage('checkout')}
-                className="w-full bg-dark text-white py-6 rounded-[24px] font-medium text-lg hover:bg-[#ff2d46] transition-all shadow-xl shadow-black/10 transform hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-4"
+              <Link 
+                to="/checkout"
+                className="w-full bg-dark text-white py-6 rounded-[24px] font-medium text-lg hover:bg-[#ff2d46] transition-all shadow-xl shadow-black/10 transform hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-4 block text-center"
               >
                 Proceed to Checkout
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-              </button>
+              </Link>
 
               <div className="mt-8 text-center">
                 <div className="flex items-center justify-center gap-3 text-[11px] font-medium text-gray-400 mb-6">

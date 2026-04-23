@@ -1,25 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../../context/AuthContext';
+import { useNavigate, Link } from 'react-router-dom';
 
-const AdminLogin = ({ setPage }) => {
+const AdminLogin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [localError, setLocalError] = useState('');
     const { login, user, loading } = useAuth();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (user && user.isAdmin) {
-            setPage('admin-dashboard');
+            navigate('/admin');
         } else if (user) {
             setLocalError('Access denied. Administrator privileges required.');
         }
-    }, [user, setPage]);
+    }, [user, navigate]);
 
     const handleLogin = async (e) => {
         e.preventDefault();
         setLocalError('');
         try {
-            const data = await login(email, password);
+            const data = await login(email, password, true); // true = isAdminLogin
             if (!data.isAdmin) {
                 setLocalError('Access denied. Administrator privileges required.');
             }
@@ -49,7 +51,7 @@ const AdminLogin = ({ setPage }) => {
                     )}
 
                     <form onSubmit={handleLogin} className="space-y-8">
-                        <div>
+                        <div className="text-left">
                             <label className="text-[10px] font-medium text-gray-400 uppercase tracking-widest block mb-3 ml-1">Email Intelligence</label>
                             <input
                                 type="email"
@@ -61,7 +63,7 @@ const AdminLogin = ({ setPage }) => {
                             />
                         </div>
 
-                        <div>
+                        <div className="text-left">
                             <label className="text-[10px] font-medium text-gray-400 uppercase tracking-widest block mb-3 ml-1">Access Key</label>
                             <input
                                 type="password"
@@ -85,7 +87,7 @@ const AdminLogin = ({ setPage }) => {
                     </form>
 
                     <div className="mt-10 flex justify-between items-center text-[11px] text-gray-400 font-medium">
-                        <button onClick={() => setPage('home')} className="hover:text-dark transition-colors">Back to Terminal</button>
+                        <Link to="/" className="hover:text-dark transition-colors">Back to Terminal</Link>
                         <span>Encrypted SSL Connection</span>
                     </div>
                 </div>

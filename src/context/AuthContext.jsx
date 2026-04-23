@@ -18,13 +18,13 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  const login = async (email, password) => {
+  const login = async (email, password, isAdminLogin = false) => {
     setLoading(true);
     try {
       const response = await fetch(`${API_URL}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password, isAdminLogin }),
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || 'Login failed');

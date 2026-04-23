@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -35,125 +36,68 @@ import AdminAnalytics from './components/admin/Pages/AdminAnalytics';
 import AdminSettings from './components/admin/Pages/AdminSettings';
 import AdminChat from './components/admin/Pages/AdminChat';
 
-import EasySetupGuide from './pages/setup/EasySetupGuide';
+import PrinterSetupGuide from './pages/setup/PrinterSetupGuide';
+import MultiSelect from './components/setup/MultiSelect';
+import DynamicModelSearch from './components/setup/DynamicModelSearch';
+import CompleteSetup from './components/setup/CompleteSetup';
+
 
 function App() {
-  const [currentPage, setCurrentPage] = useState(() => {
-    return localStorage.getItem('currentPage') || 'home';
-  });
-  
-  const [selectedProductId, setSelectedProductId] = useState(() => {
-    return localStorage.getItem('selectedProductId') || null;
-  });
-
-  useEffect(() => {
-    localStorage.setItem('currentPage', currentPage);
-  }, [currentPage]);
-
-  useEffect(() => {
-    if (selectedProductId) {
-      localStorage.setItem('selectedProductId', selectedProductId);
-    } else {
-      localStorage.removeItem('selectedProductId');
-    }
-  }, [selectedProductId]);
-
-  const handleProductClick = (id) => {
-    setSelectedProductId(id);
-    setCurrentPage('product-details');
-    window.scrollTo(0, 0);
-  };
-
-  const setPage = (page) => {
-    if (page !== 'product-details') {
-      setSelectedProductId(null);
-    }
-    setCurrentPage(page);
-    window.scrollTo(0, 0);
-  };
-
-  const renderPage = () => {
-    if (currentPage.startsWith('order-details-')) {
-      const orderId = currentPage.replace('order-details-', '');
-      return <OrderDetails orderId={orderId} setPage={setPage} />;
-    }
-
-    switch (currentPage) {
-      case 'about':
-        return <About />;
-      case 'shop':
-        return <Shop setPage={handleProductClick} />;
-      case 'faqs':
-        return <FAQs setPage={setPage} />;
-      case 'contact':
-        return <Contact setPage={setPage} />;
-      case 'privacy':
-        return <PrivacyPolicy />;
-      case 'terms':
-        return <TermsConditions />;
-      case 'refund-policy':
-        return <RefundReturnPolicy />;
-      case 'shipping':
-        return <ShippingPolicy />;
-      case 'accessibility':
-        return <AccessibilityStatement />;
-      case 'cookie-policy':
-        return <CookiePolicy />;
-      case 'disclaimer':
-        return <Disclaimer />;
-      case 'do-not-sell':
-        return <DoNotSell />;
-      case 'cart':
-        return <Cart setPage={setPage} />;
-      case 'checkout':
-        return <Checkout setPage={setPage} />;
-      case 'login':
-        return <Login setPage={setPage} />;
-      case 'signup':
-        return <Signup setPage={setPage} />;
-      case 'forgot-password':
-        return <ForgotPassword setPage={setPage} />;
-      case 'profile':
-        return <Profile setPage={setPage} />;
-      case 'track-order':
-        return <TrackOrder setPage={setPage} />;
-      case 'product-details':
-        return <ProductDetails productId={selectedProductId} setPage={setPage} />;
-      
-      // Admin Pages
-      case 'admin-login':
-        return <AdminLogin setPage={setPage} />;
-      case 'admin-dashboard':
-        return <AdminLayout setPage={setPage} currentPage={currentPage}><AdminDashboard setPage={setPage} /></AdminLayout>;
-      case 'admin-products':
-        return <AdminLayout setPage={setPage} currentPage={currentPage}><AdminProducts setPage={setPage} /></AdminLayout>;
-      case 'admin-categories':
-        return <AdminLayout setPage={setPage} currentPage={currentPage}><AdminCategories setPage={setPage} /></AdminLayout>;
-      case 'admin-orders':
-        return <AdminLayout setPage={setPage} currentPage={currentPage}><AdminOrders setPage={setPage} /></AdminLayout>;
-      case 'admin-customers':
-        return <AdminLayout setPage={setPage} currentPage={currentPage}><AdminCustomers setPage={setPage} /></AdminLayout>;
-      case 'admin-analytics':
-        return <AdminLayout setPage={setPage} currentPage={currentPage}><AdminAnalytics setPage={setPage} /></AdminLayout>;
-      case 'admin-settings':
-        return <AdminLayout setPage={setPage} currentPage={currentPage}><AdminSettings setPage={setPage} /></AdminLayout>;
-      case 'admin-chat':
-        return <AdminLayout setPage={setPage} currentPage={currentPage}><AdminChat setPage={setPage} /></AdminLayout>;
-
-      default:
-        return <Home setPage={handleProductClick} />;
-    }
-  };
-
-  const isAdminPage = currentPage.startsWith('admin-');
+  const location = useLocation();
+  const isAdminPage = location.pathname.startsWith('/admin');
+  const isSetupPage = ['/easy-setup-guide', '/easy-setup-guide/', '/multi-select'].includes(location.pathname);
 
   return (
     <div className="flex flex-col min-h-screen">
-      {!isAdminPage && <Header setPage={setPage} currentPage={currentPage} />}
+      {!isAdminPage && !isSetupPage && <Header />}
       <div className="flex-grow">
-        {renderPage()}
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/shop" element={<Shop />} />
+          <Route path="/faqs" element={<FAQs />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-conditions" element={<TermsConditions />} />
+          <Route path="/refund-return-policy" element={<RefundReturnPolicy />} />
+          <Route path="/shipping-delivery-policy" element={<ShippingPolicy />} />
+          <Route path="/accessibility-statement" element={<AccessibilityStatement />} />
+          <Route path="/cookie-policy" element={<CookiePolicy />} />
+          <Route path="/disclaimer" element={<Disclaimer />} />
+          <Route path="/do-not-sell" element={<DoNotSell />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/track-order" element={<TrackOrder />} />
+          <Route path="/product/:id" element={<ProductDetails />} />
+          <Route path="/order-details/:orderId" element={<OrderDetails />} />
+          <Route path="/easy-setup-guide" element={<PrinterSetupGuide />} />
+          <Route path="/easy-setup-guide/" element={<PrinterSetupGuide />} />
+          <Route path="/multi-select" element={<MultiSelect />} />
+          <Route path="/model-search/:brand/" element={<DynamicModelSearch />} />
+          <Route path="/complete-setup/:brand" element={<CompleteSetup />} />
+          
+
+
+          {/* Admin Routes */}
+          <Route path="/admin-login" element={<AdminLogin />} />
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<AdminDashboard />} />
+            <Route path="products" element={<AdminProducts />} />
+            <Route path="categories" element={<AdminCategories />} />
+            <Route path="orders" element={<AdminOrders />} />
+            <Route path="customers" element={<AdminCustomers />} />
+            <Route path="analytics" element={<AdminAnalytics />} />
+            <Route path="settings" element={<AdminSettings />} />
+            <Route path="chat" element={<AdminChat />} />
+          </Route>
+        </Routes>
       </div>
-      {!isAdminPage && <Footer setPage={setPage} />}
+      {!isAdminPage && <Footer />}
     </div>
   );
 }

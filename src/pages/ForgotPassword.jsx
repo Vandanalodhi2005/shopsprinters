@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-const ForgotPassword = ({ setPage }) => {
+const ForgotPassword = () => {
   const [step, setStep] = useState(1); // 1: Email, 2: OTP & New Password
   const [email, setEmail] = useState('');
   const [otp, setOtp] = useState('');
@@ -11,6 +12,7 @@ const ForgotPassword = ({ setPage }) => {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const { forgotPasswordRequest, resetPasswordRequest } = useAuth();
+  const navigate = useNavigate();
 
   const handleSendOTP = async (e) => {
     e.preventDefault();
@@ -37,7 +39,7 @@ const ForgotPassword = ({ setPage }) => {
     try {
       await resetPasswordRequest(email, otp, newPassword);
       setMessage('Password reset successfully! Redirecting to login...');
-      setTimeout(() => setPage('login'), 2000);
+      setTimeout(() => navigate('/login'), 2000);
     } catch (err) {
       setError(err.message || 'Password reset failed');
     } finally {
@@ -51,13 +53,13 @@ const ForgotPassword = ({ setPage }) => {
   return (
     <main className="min-h-screen pt-40 pb-20 bg-[#fafafa] flex flex-col items-center justify-center">
       <div className="w-full max-w-md px-6">
-        <div className="bg-white rounded-[40px] border border-gray-100 shadow-xl p-10 md:p-14">
+        <div className="bg-white rounded-[40px] border border-gray-100 shadow-xl p-10 md:p-14 text-center">
           <header className="text-center mb-12">
-            <h1 className="text-4xl font-semibold text-dark mb-4 tracking-tight">
+            <h1 className="text-4xl font-semibold text-dark mb-4 tracking-tight text-center">
               {step === 1 ? 'Forgot ' : 'Reset '}
               <span className="text-[#ff2d46]">{step === 1 ? 'Password' : 'Security'}</span>
             </h1>
-            <p className="text-gray-400 font-medium text-xs uppercase tracking-widest leading-relaxed">
+            <p className="text-gray-400 font-medium text-xs uppercase tracking-widest leading-relaxed text-center">
               {step === 1 ? 'Enter your email to receive a reset code' : 'Enter the code and your new password'}
             </p>
           </header>
@@ -78,7 +80,7 @@ const ForgotPassword = ({ setPage }) => {
 
           {step === 1 ? (
             <form onSubmit={handleSendOTP}>
-              <div>
+              <div className="text-left">
                 <label className={labelClass}>Email Address</label>
                 <input 
                   type="email" 
@@ -100,7 +102,7 @@ const ForgotPassword = ({ setPage }) => {
             </form>
           ) : (
             <form onSubmit={handleResetPassword}>
-              <div>
+              <div className="text-left">
                 <label className={labelClass}>Reset Code (OTP)</label>
                 <input 
                   type="text" 
@@ -113,7 +115,7 @@ const ForgotPassword = ({ setPage }) => {
                 />
               </div>
 
-              <div>
+              <div className="text-left">
                 <label className={labelClass}>New Password</label>
                 <input 
                   type="password" 
@@ -125,7 +127,7 @@ const ForgotPassword = ({ setPage }) => {
                 />
               </div>
 
-              <div>
+              <div className="text-left">
                 <label className={labelClass}>Confirm New Password</label>
                 <input 
                   type="password" 
@@ -148,12 +150,12 @@ const ForgotPassword = ({ setPage }) => {
           )}
 
           <div className="mt-12 pt-8 border-t border-gray-50 text-center">
-            <button 
-              onClick={() => setPage('login')}
+            <Link 
+              to="/login"
               className="text-[13px] font-medium text-gray-400 hover:text-dark transition-colors"
             >
               Back to Login
-            </button>
+            </Link>
           </div>
         </div>
       </div>

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 
-const FeaturedProducts = ({ setPage }) => {
+const FeaturedProducts = () => {
+  const navigate = useNavigate();
   const { addToCart } = useCart();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -9,7 +11,7 @@ const FeaturedProducts = ({ setPage }) => {
   const handleQuickAdd = (e, product) => {
     e.stopPropagation();
     addToCart(product, 1);
-    setPage('cart');
+    navigate('/cart');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -38,17 +40,15 @@ const FeaturedProducts = ({ setPage }) => {
   }, []);
 
   const handleSeeMore = () => {
-    if (setPage) {
-        setPage('shop');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    navigate('/shop');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
     <section className="py-20 bg-white">
       <div className="container mx-auto px-4 md:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-4xl md:text-[54px] font-[900] text-dark mb-6 tracking-tight">Featured Products</h2>
+          <h2 className="text-3xl md:text-[54px] font-[900] text-dark mb-6 tracking-tight">Featured Products</h2>
           <p className="text-[#666] text-lg font-medium leading-relaxed">
             Browse reliable printers, ink, and accessories that customers trust for everyday home and office use.
           </p>
@@ -71,7 +71,7 @@ const FeaturedProducts = ({ setPage }) => {
                   <div 
                     key={product._id} 
                     className="group relative flex flex-col cursor-pointer"
-                    onClick={() => setPage(product._id)}
+                    onClick={() => navigate(`/product/${product._id}`)}
                   >
                     {/* Image Container */}
                     <div className="relative aspect-square bg-[#fcfcfc] rounded-3xl overflow-hidden mb-6 group-hover:shadow-xl transition-all duration-500 flex items-center justify-center p-6 border border-gray-100">
@@ -98,7 +98,7 @@ const FeaturedProducts = ({ setPage }) => {
                     </div>
 
                     {/* Content */}
-                    <div className="flex-1 flex flex-col px-1">
+                    <div className="flex-1 flex flex-col px-1 text-left">
                       <h3 className="text-[17px] font-bold text-dark leading-snug mb-1.5 group-hover:text-[#ff2d46] transition-colors line-clamp-2">
                         {name}
                       </h3>
