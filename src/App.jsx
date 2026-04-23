@@ -46,11 +46,8 @@ import InstallationFailedPage from './components/setup/InstallationFailedPage';
 function App() {
   const location = useLocation();
   const isAdminPage = location.pathname.startsWith('/admin');
-  const isSetupPage = [
-    '/easy-setup-guide',
-    '/easy-setup-guide/',
-    '/multi-select',
-  ].includes(location.pathname)
+  const isSetupPage = location.pathname.startsWith('/easy-setup-guide')
+    || location.pathname === '/multi-select'
     || location.pathname.startsWith('/model-search/')
     || location.pathname.startsWith('/complete-setup/')
     || location.pathname.startsWith('/installation-failed/');

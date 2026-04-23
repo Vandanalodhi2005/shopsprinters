@@ -71,15 +71,16 @@ const ModelSearch = ({
                             value={input}
                             onChange={e => setInput(e.target.value)}
                             placeholder={placeholder || "Enter your product name here. For example: OfficeJet 9010"}
-                            disabled={!allowModelSearch}
-                            className="flex-1 px-5 py-3 rounded-full md:rounded-r-none border border-gray-200 focus:outline-none text-lg bg-white shadow-sm w-full"
+                            className={`flex-1 px-5 py-3 rounded-full ${allowModelSearch ? 'md:rounded-r-none' : ''} border border-gray-200 focus:outline-none text-lg bg-white shadow-sm w-full`}
                         />
-                        <button
-                            type="submit"
-                            className={`px-8 py-3 rounded-full md:rounded-l-none font-bold text-lg shadow-sm transition w-full md:w-auto ${searchButtonBgColor || 'bg-orange-500'} ${searchButtonTextColor || 'text-white'} hover:${searchButtonHoverColor || 'bg-orange-600'}`}
-                        >
-                            Search
-                        </button>
+                        {allowModelSearch && (
+                            <button
+                                type="submit"
+                                className={`px-8 py-3 rounded-full md:rounded-l-none font-bold text-lg shadow-sm transition w-full md:w-auto ${searchButtonBgColor || 'bg-orange-500'} ${searchButtonTextColor || 'text-white'} hover:${searchButtonHoverColor || 'bg-orange-600'}`}
+                            >
+                                Search
+                            </button>
+                        )}
                     </form>
                     {error && <div className="text-red-500 text-sm mt-2 text-left bg-white/80 px-2 rounded">{error}</div>}
                 </div>

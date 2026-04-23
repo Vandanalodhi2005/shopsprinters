@@ -21,7 +21,6 @@ const Footer = () => {
     { name: 'Accessibility Statement', path: '/accessibility-statement' },
     { name: 'Cookie Policy', path: '/cookie-policy' },
     { name: 'Disclaimer', path: '/disclaimer' },
-    { name: 'Printer Setup Guide', path: '/easy-setup-guide' },
   ];
 
   return (
