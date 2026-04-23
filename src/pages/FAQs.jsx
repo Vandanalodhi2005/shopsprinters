@@ -62,7 +62,7 @@ const FAQs = () => {
   return (
     <main className="bg-white min-h-screen">
       {/* Header Section */}
-      <section className="pt-40 pb-20 bg-[#fdf2f2]">
+      <section className="pt-12 md:pt-20 pb-20 bg-[#fdf2f2]">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h1 className="text-[42px] md:text-[54px] font-medium text-dark mb-6 leading-tight">
             Frequently Asked Questions

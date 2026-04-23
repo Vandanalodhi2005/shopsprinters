@@ -5,7 +5,7 @@ import Purpose from '../components/Purpose';
 
 const About = () => {
   return (
-    <main className="pt-20">
+    <main className="pt-0">
       {/* Hero Section */}
       <section className="relative h-[80vh] min-h-[600px] flex items-center justify-center overflow-hidden">
         {/* Background Image with Overlay */}

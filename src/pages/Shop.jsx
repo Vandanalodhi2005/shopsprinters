@@ -63,7 +63,7 @@ const Shop = () => {
   );
 
   return (
-    <main className="pt-32 pb-20 bg-white min-h-screen">
+    <main className="pt-10 md:pt-16 pb-20 bg-white min-h-screen">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
 
         {/* Page Title */}

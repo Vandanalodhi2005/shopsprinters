@@ -35,7 +35,7 @@ const Header = () => {
   ];
 
   return (
-    <header className={`top-0 left-0 w-full z-[1000] transition-all duration-500 ease-in-out ${
+    <header className={`sticky top-0 left-0 w-full z-[1000] transition-all duration-500 ease-in-out ${
       isScrolled ? 'bg-white shadow-md h-20' : 'bg-white h-24'
     } flex items-center`}>
       <div className="container mx-auto px-4 md:px-8 flex items-center justify-between">
