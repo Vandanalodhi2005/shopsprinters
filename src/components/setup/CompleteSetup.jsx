@@ -10,9 +10,9 @@ const brandConfigs = {
     logo: "/hp-bg.png",
     printerImg: "/hp-printer-software.png",
     bgImage: "/hero_background_image copy.webp",
-    installButtonBgColor: "bg-red-600",
-    installButtonTextColor: "text-white",
-    installButtonHoverColor: "bg-red-700",
+    installButtonBgColor: "bg-white",
+    installButtonTextColor: "text-blue-900",
+    installButtonHoverColor: "bg-gray-100",
     appStoreUrl: "https://apps.apple.com/app/hp-smart/id469284907",
     playStoreUrl: "https://play.google.com/store/apps/details?id=com.hp.printercontrol&hl=en&gl=US",
     msStoreUrl: "https://apps.microsoft.com/store/detail/hp-smart/9WZDNCRFHWLH",
@@ -21,9 +21,9 @@ const brandConfigs = {
     logo: "/brother-bg.png",
     printerImg: "/brother-bg-image-bg.png",
     bgImage: "/hero_background_image copy.webp",
-    installButtonBgColor: "bg-blue-950",
-    installButtonTextColor: "text-white",
-    installButtonHoverColor: "bg-blue-200",
+    installButtonBgColor: "bg-white",
+    installButtonTextColor: "text-blue-900",
+    installButtonHoverColor: "bg-gray-100",
     appStoreUrl: "https://apps.apple.com/app/brother-iprint-scan/id382775642",
     playStoreUrl: "https://play.google.com/store/apps/details?id=com.brother.mfc.brprint&hl=en&gl=US",
     msStoreUrl: "https://apps.microsoft.com/store/detail/brother-iprint-scan/9WZDNCRFJTRJ",
@@ -32,9 +32,9 @@ const brandConfigs = {
     logo: "/epson-bg.png",
     printerImg: "/epson-bg-image-bg.png",
     bgImage: "/hero_background_image copy.webp",
-    installButtonBgColor: "bg-blue-950",
-    installButtonTextColor: "text-white",
-    installButtonHoverColor: "bg-blue-200",
+    installButtonBgColor: "bg-white",
+    installButtonTextColor: "text-blue-900",
+    installButtonHoverColor: "bg-gray-100",
     appStoreUrl: "https://apps.apple.com/app/epson-smart-panel/id1474044348",
     playStoreUrl: "https://play.google.com/store/apps/details?id=com.epson.smartpanel&hl=en&gl=US",
     msStoreUrl: "https://www.microsoft.com/en-us/p/epson-print-and-scan/9nblggh516bp",
@@ -43,9 +43,9 @@ const brandConfigs = {
     logo: "/canon-bg.png",
     printerImg: "/canon-image-bg.png",
     bgImage: "/canon-gemini2.jpeg",
-    installButtonBgColor: "bg-red-600",
-    installButtonTextColor: "text-white",
-    installButtonHoverColor: "bg-red-700",
+    installButtonBgColor: "bg-white",
+    installButtonTextColor: "text-blue-900",
+    installButtonHoverColor: "bg-gray-100",
     appStoreUrl: "https://apps.apple.com/app/canon-print-inkjet-selphy/id664425773",
     playStoreUrl: "https://play.google.com/store/apps/details?id=jp.co.canon.bsd.ad.pixmaprint&hl=en&gl=US",
     msStoreUrl: "https://apps.microsoft.com/store/detail/canon-print/9WZDNCRDXF71",
@@ -54,9 +54,9 @@ const brandConfigs = {
     logo: null,
     printerImg: null,
     bgImage: "/hero_background_image copy.webp",
-    installButtonBgColor: "bg-green-700",
-    installButtonTextColor: "text-white",
-    installButtonHoverColor: "bg-green-800",
+    installButtonBgColor: "bg-white",
+    installButtonTextColor: "text-blue-900",
+    installButtonHoverColor: "bg-gray-100",
     appStoreUrl: "https://apps.apple.com/app/lexmark-mobile-print/id538870228",
     playStoreUrl: "https://play.google.com/store/apps/details?id=com.lexmark.print&hl=en&gl=US",
     msStoreUrl: "https://www.microsoft.com/en-us/p/lexmark-print/9nblggh4s3vx",
@@ -84,7 +84,7 @@ function CompleteSetup() {
         .then(res => res.json())
         .then(data => {
           if (data.showCompleteSetupPage === false) {
-            navigate('/easy-setup-guide');
+            navigate('/easy-setup-guide/');
           }
         })
         .catch(() => {});
@@ -115,7 +115,7 @@ function CompleteSetup() {
   const issue = localStorage.getItem('issue');
 
   if (showModal) {
-    return <div className="fixed inset-0 z-50 bg-white flex items-center justify-center"><SetupProgressModal open={showModal} onClose={() => setShowModal(false)} user={userName} printer={printerModel} onError={() => navigate(`/installation-failed/${brand || 'HP'}`)} /></div>;
+    return <div className="fixed inset-0 z-50 bg-white flex items-center justify-center"><SetupProgressModal open={showModal} onClose={() => setShowModal(false)} user={userName} printer={printerModel} onError={() => navigate(`/installation-failed/${brand || 'HP'}/`)} /></div>;
   }
 
   if (showFinalStep) {
@@ -172,7 +172,14 @@ function CompleteSetup() {
               <button
                 className={`${config.installButtonBgColor} ${config.installButtonTextColor} font-semibold px-7 py-3 rounded-full text-lg shadow hover:${config.installButtonHoverColor} transition mb-6 w-fit`}
                 onClick={() => {
-                  setShowFinalStep(true);
+                  const savedIssue = localStorage.getItem('issue');
+                  if (savedIssue === 'Set Up a New Printer') {
+                    setShowFinalStep(true);
+                  } else {
+                    // Skip form and go to progress
+                    setUserName('User');
+                    setShowModal(true);
+                  }
                 }}
               >
                 Install {brand ? brand + ' ' : ''}Smart App

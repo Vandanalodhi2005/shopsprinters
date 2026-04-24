@@ -57,19 +57,21 @@ const PrinterSetupGuide = () => {
 
   const handleIssueSelect = (issue) => {
     setSetupData(prev => ({ ...prev, issue }));
+    localStorage.setItem('issue', issue);
     setStep('connection');
   };
 
   const handleConnectionSelect = (connection) => {
     setSetupData(prev => ({ ...prev, connection }));
     sessionStorage.setItem('setupData', JSON.stringify({ ...setupData, connection }));
-    navigate('/multi-select');
+    navigate('/select-your-brand/');
   };
 
 
   const handleModelSearch = (model) => {
     setSetupData(prev => ({ ...prev, model }));
-    if (settings.allowCompleteSetup) {
+    const savedIssue = localStorage.getItem('issue');
+    if (settings.allowCompleteSetup && savedIssue === 'Set Up a New Printer') {
       setStep('final');
     } else {
       setStep('progress');
@@ -124,7 +126,7 @@ const PrinterSetupGuide = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans antialiased text-gray-800">
-      {settings.showHeader && <SetupHeader showLogo={settings.showLogo} />}
+      {/* {settings.showHeader && <SetupHeader showLogo={settings.showLogo} />} */}
       {/* Persistent Hero for the landing state */}
       {(step === 'issue' || step === 'connection') && renderHero()}
 

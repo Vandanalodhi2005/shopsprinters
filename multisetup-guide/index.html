@@ -2,18 +2,41 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Printer Setup Guide | Multi-Step Assistant</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <title>ShopsPrinters | Print Smarter with Quality Printers & Ink</title>
+    <meta name="description" content="Explore the best deals on printers, ink, toner, and accessories at ShopsPrinters. Your one-stop shop for home and business printing solutions." />
+    
+    <!-- Premium Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <script src="//code.jivosite.com/widget/jnhsn3P8fW" async></script>
-    <style>
-      body { font-family: 'Inter', sans-serif !important; }
-    </style>
+    
+    <!-- Tailwind CDN (Runtime) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                DEFAULT: '#ff2d46',
+                hover: '#e6253d',
+              },
+              dark: '#111111',
+              light: '#ffffff',
+            },
+            fontFamily: {
+              outfit: ['Outfit', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
   </head>
-  <body class="font-inter bg-gray-50">
+  <body>
     <div id="root"></div>
-    <script type="module" src="/src/multisetup/main.jsx"></script>
+    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

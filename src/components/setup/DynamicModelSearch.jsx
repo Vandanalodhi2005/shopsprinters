@@ -59,12 +59,12 @@ const DynamicModelSearch = () => {
   const handleSearch = (model) => {
     localStorage.setItem('printerModel', model);
     if (allowCompleteSetup) {
-      navigate(`/complete-setup/${brand}`);
+      navigate(`/complete-setup/${brand}/`);
     } else {
       // If we skip complete setup, we might go straight to a progress/failed flow
       // But DynamicModelSearch is a standalone page. Let's just go to installation-failed or progress.
       // Easiest is to go back to the main guide which handles it
-      navigate('/easy-setup-guide');
+      navigate('/easy-setup-guide/');
     }
   };
 
@@ -78,7 +78,7 @@ const DynamicModelSearch = () => {
       searchButtonTextColor={config.searchButtonTextColor}
       searchButtonHoverColor={config.searchButtonHoverColor}
       onSearch={handleSearch}
-      onBack={() => navigate('/multi-select')}
+      onBack={() => navigate('/select-your-brand/')}
     />
   );
 };

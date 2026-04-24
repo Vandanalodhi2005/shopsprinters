@@ -58,7 +58,7 @@ const HomeHero = () => {
               <span className="inline-block mb-2 xs:mb-4 px-2 xs:px-3 py-1 rounded-lg bg-blue-100 text-blue-800 font-semibold text-xs xs:text-sm tracking-wide shadow-sm border border-blue-200">Printer Setup</span>
               <button
                 className="flex items-center gap-2 bg-gradient-to-r from-blue-700 via-blue-800 to-blue-900 hover:from-blue-800 hover:to-blue-800 text-white font-bold py-2 xs:py-2 px-3 xs:px-6 rounded-xl shadow-lg transition-all duration-200 group-hover:shadow-xl group-hover:-translate-y-1 text-xs xs:text-base tracking-wide uppercase whitespace-nowrap"
-                onClick={() => navigate(`/model-search/${brand.name}`)}
+                onClick={() => navigate(`/model-search/${brand.name}/`)}
               >
                 <svg className="w-4 h-4 xs:w-5 xs:h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M12 5l7 7-7 7" /></svg>
                 Start Now

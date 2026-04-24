@@ -28,10 +28,10 @@ const Header = () => {
 
   const navLinks = [
     { name: 'Home', path: '/' },
-    { name: 'Shop', path: '/shop' },
-    { name: 'About Us', path: '/about' },
-    { name: "FAQ's", path: '/faqs' },
-    { name: 'Contact Us', path: '/contact' },
+    { name: 'Shop', path: '/shop/' },
+    { name: 'About Us', path: '/about/' },
+    { name: "FAQ's", path: '/faqs/' },
+    { name: 'Contact Us', path: '/contact/' },
   ];
 
   return (
@@ -77,7 +77,7 @@ const Header = () => {
           <div className="flex items-center gap-6 shrink-0 border-l pl-8 border-gray-100 ml-2 hidden lg:flex">
             <div className="relative">
               <button 
-                onClick={() => isAuthenticated ? setIsUserMenuOpen(!isUserMenuOpen) : navigate('/login')}
+                onClick={() => isAuthenticated ? setIsUserMenuOpen(!isUserMenuOpen) : navigate('/login/')}
                 className={`flex items-center justify-center border transition-all duration-300 ${
                   isAuthenticated 
                     ? 'w-10 h-10 rounded-xl bg-white border-gray-100 text-[#ff2d46] font-medium text-xs shadow-sm hover:border-[#ff2d46]' 
@@ -98,7 +98,7 @@ const Header = () => {
                     <p className="text-[10px] font-medium text-gray-400 uppercase tracking-widest leading-none mb-1 text-left">Signed in as</p>
                     <p className="text-[13px] font-medium text-dark truncate text-left">{user.firstName} {user.lastName}</p>
                   </div>
-                  <Link to="/profile" className="w-full text-left px-6 py-3 text-[14px] font-medium text-dark hover:bg-gray-50 flex items-center gap-3 transition-colors block">
+                  <Link to="/profile/" className="w-full text-left px-6 py-3 text-[14px] font-medium text-dark hover:bg-gray-50 flex items-center gap-3 transition-colors block">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                     Profile
                   </Link>
@@ -110,7 +110,7 @@ const Header = () => {
               )}
             </div>
             <Link 
-              to="/cart"
+              to="/cart/"
               className="relative p-2 text-dark hover:text-[#ff2d46] transition-all duration-300 hover:-translate-y-0.5" 
               aria-label="Shopping Cart"
             >
@@ -126,7 +126,7 @@ const Header = () => {
           {/* Mobile Actions Overlay - Mobile Only */}
           <div className="flex items-center gap-2 lg:hidden">
             <Link 
-              to="/cart"
+              to="/cart/"
               className="relative p-2 text-dark" 
               aria-label="Shopping Cart"
             >
@@ -173,14 +173,14 @@ const Header = () => {
                 </div>
                 <div className="text-left">
                   <p className="text-sm font-medium text-dark leading-none mb-1">{user.firstName} {user.lastName}</p>
-                  <Link to="/profile" className="text-[11px] font-medium text-[#ff2d46] uppercase tracking-wider block">Account Settings</Link>
+                  <Link to="/profile/" className="text-[11px] font-medium text-[#ff2d46] uppercase tracking-wider block">Account Settings</Link>
                 </div>
               </>
             ) : (
               <div className="flex flex-col gap-2 w-full text-left">
                 <p className="text-xs font-medium text-gray-400 uppercase tracking-widest mb-2">Welcome Guest</p>
                 <Link 
-                  to="/login"
+                  to="/login/"
                   className="w-full bg-dark text-white py-4 rounded-xl font-medium text-[13px] uppercase tracking-widest hover:bg-[#ff2d46] transition-all active:scale-95 shadow-xl shadow-black/10 flex items-center justify-center"
                 >
                   Sign In
@@ -207,7 +207,7 @@ const Header = () => {
 
           <div className="p-8 border-t border-gray-50 space-y-4">
              <Link 
-                to="/cart"
+                to="/cart/"
                 className="w-full flex items-center justify-between p-5 rounded-2xl bg-gray-50 text-dark font-medium transition-all hover:bg-dark hover:text-white"
              >
                 <span className="flex items-center gap-3">

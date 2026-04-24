@@ -4,23 +4,23 @@ import { Link } from 'react-router-dom';
 const Footer = () => {
   const quickLinks = [
     { name: 'Home', path: '/' },
-    { name: 'About Us', path: '/about' },
-    { name: 'Shop', path: '/shop' },
-    { name: 'Track Order', path: '/track-order' },
-    { name: 'My account', path: '/profile' },
+    { name: 'About Us', path: '/about/' },
+    { name: 'Shop', path: '/shop/' },
+    { name: 'Track Order', path: '/track-order/' },
+    { name: 'My account', path: '/profile/' },
     { name: 'Blog', path: '#' },
-    { name: "FAQ's", path: '/faqs' },
-    { name: 'Contact Us', path: '/contact' },
+    { name: "FAQ's", path: '/faqs/' },
+    { name: 'Contact Us', path: '/contact/' },
   ];
 
   const importantLinks = [
-    { name: 'Privacy Policy', path: '/privacy-policy' },
-    { name: 'Terms and Conditions', path: '/terms-conditions' },
-    { name: 'Refund and Return Policy', path: '/refund-return-policy' },
-    { name: 'Shipping & Delivery Policy', path: '/shipping-delivery-policy' },
-    { name: 'Accessibility Statement', path: '/accessibility-statement' },
-    { name: 'Cookie Policy', path: '/cookie-policy' },
-    { name: 'Disclaimer', path: '/disclaimer' },
+    { name: 'Privacy Policy', path: '/privacy-policy/' },
+    { name: 'Terms and Conditions', path: '/terms-conditions/' },
+    { name: 'Refund and Return Policy', path: '/refund-return-policy/' },
+    { name: 'Shipping & Delivery Policy', path: '/shipping-delivery-policy/' },
+    { name: 'Accessibility Statement', path: '/accessibility-statement/' },
+    { name: 'Cookie Policy', path: '/cookie-policy/' },
+    { name: 'Disclaimer', path: '/disclaimer/' },
   ];
 
   return (
@@ -113,7 +113,7 @@ const Footer = () => {
       <div className="container mx-auto px-4 md:px-8 pt-8 border-t border-gray-900 flex flex-col md:flex-row justify-between items-center gap-4 text-gray-200 text-[15px] font-medium">
         <p>Copyright © 2026 Shops Printers All rights reserved</p>
         <Link 
-          to="/do-not-sell" 
+          to="/do-not-sell/" 
           className="hover:text-[#ff2d46] transition-colors"
           onClick={() => window.scrollTo(0, 0)}
         >

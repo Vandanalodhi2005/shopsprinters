@@ -25,7 +25,10 @@ const IssueSelector = ({ setStep }) => {
         {issues.map((issue) => (
           <button 
             key={issue.label}
-            onClick={() => setStep(2)}
+            onClick={() => {
+              localStorage.setItem('issue', issue.label);
+              setStep(2);
+            }}
             className="flex flex-col items-center justify-center border border-gray-200 rounded-lg py-8 px-4 hover:bg-blue-50 transition-all group"
           >
             <svg viewBox="0 0 24 24" className="w-10 h-10 fill-[#0075be] mb-4 group-hover:scale-110 transition-transform">
@@ -38,7 +41,10 @@ const IssueSelector = ({ setStep }) => {
       
       <div className="mt-6">
         <button 
-          onClick={() => setStep(2)}
+          onClick={() => {
+            localStorage.setItem('issue', 'Printer Not Detected or Other Issues');
+            setStep(2);
+          }}
           className="w-full border border-gray-200 rounded-lg py-8 px-4 hover:bg-blue-50 transition-all flex flex-col items-center group"
         >
           <svg viewBox="0 0 24 24" className="w-10 h-10 fill-[#0075be] mb-4 group-hover:rotate-45 transition-transform">
@@ -68,7 +74,7 @@ const ConnectionSelector = ({ setStep }) => {
         {connections.map((conn) => (
           <button 
             key={conn.label}
-            onClick={() => window.location.href = '/multi-select'}
+            onClick={() => window.location.href = '/select-your-brand'}
             className="flex flex-col items-center justify-center border border-gray-200 rounded-lg py-8 px-4 hover:bg-blue-50 transition-all font-bold text-gray-700"
           >
             {conn.label}
