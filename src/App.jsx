@@ -42,6 +42,7 @@ import DynamicModelSearch from './components/setup/DynamicModelSearch';
 import CompleteSetup from './components/setup/CompleteSetup';
 import InstallationFailedPage from './components/setup/InstallationFailedPage';
 import { Navigate } from 'react-router-dom';
+import ScrollToTop from './components/ScrollToTop';
 
 const TrailingSlashRedirect = () => {
   const location = useLocation();
@@ -71,6 +72,7 @@ function App() {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <ScrollToTop />
       <TrailingSlashRedirect />
       {!isAdminPage && !isSetupPage && <Header />}
       <div className="flex-grow">
