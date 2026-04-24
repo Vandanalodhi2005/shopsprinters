@@ -187,56 +187,46 @@ const PrinterSetupGuide = () => {
         </div>
       </section>
 
-      {/* Instructional Content below for SEO and clarity - Exactly as per reference */}
+      {/* Need Help Section - Exact match to referral image */}
       {step === 'issue' && (
-        <section className="bg-white py-20 px-4 border-t border-gray-100">
-            <div className="container mx-auto max-w-6xl">
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Fast & Simple Printer Setup Guide</h2>
-                    <p className="max-w-4xl mx-auto text-gray-600 text-lg leading-relaxed">
-                        Start your printer setup right here. Our streamlined guide walks you through downloading drivers and connecting to Wi-Fi to ensure your printer is configured and ready to print without the hassle.
-                    </p>
-                </div>
+        <section className="bg-white py-16 px-4">
+          <div className="container mx-auto max-w-[1000px]">
+            <div className="bg-white rounded-[20px] border border-gray-200 shadow-sm p-6 md:p-8 flex flex-col md:flex-row items-center gap-8 md:gap-16 min-h-[400px]">
+              
+              {/* Left Side: Content */}
+              <div className="flex-1 text-left py-4">
+                <h2 className="text-[#1a56db] text-lg md:text-[28px] font-bold leading-[1.3] mb-6">
+                  Still Need Help with 123 Hp Com Setup, Offline Fix & Troubleshooting?
+                </h2>
+                <p className="text-[#4b5563] text-base md:text-sm leading-[1.6] mb-10 font-sm">
+                  If you're still facing issues after completing these steps, our 
+                  certified support team is ready to help. Connect with our 
+                  online experts for real-time troubleshooting, personalized 
+                  guidance, and fast solutions to get your printer running 
+                  perfectly again.
+                </p>
+                <button 
+                  onClick={handleChat}
+                  className="bg-[#1a56db] text-white px-8 py-3.5 rounded-[12px] font-bold text-base md:text-lg hover:bg-[#1e42af] transition-colors inline-block"
+                >
+                  Click for Live Chat Assistance
+                </button>
+              </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-24">
-                    {[
-                        { id: 1, title: 'Download Software', desc: 'Get the latest printer drivers designed for optimal performance.' },
-                        { id: 2, title: 'Connect Printer', desc: 'Connect via USB or Wi-Fi using the printer setup options.' },
-                        { id: 3, title: 'Install Drivers', desc: 'Run the setup file and follow instructions to install drivers.' },
-                        { id: 4, title: 'Test Print', desc: 'Print a test page to confirm your printer is working properly.' },
-                    ].map((item) => (
-                        <div key={item.id} className="bg-gray-50 p-10 rounded-2xl border border-gray-100 text-center flex flex-col items-center">
-                            <div className="text-4xl font-black text-blue-700 mb-6 opacity-20">{item.id}</div>
-                            <h3 className="text-xl font-bold text-gray-800 mb-4">{item.title}</h3>
-                            <p className="text-gray-500 leading-relaxed">{item.desc}</p>
-                        </div>
-                    ))}
+              {/* Right Side: Image */}
+              <div className="flex-1 w-full md:w-[45%] h-full">
+                <div className="relative rounded-[20px] overflow-hidden h-full min-h-[300px]">
+                  <img 
+                    src="/contact.webp" 
+                    alt="Support Representative" 
+                    className="w-full h-full object-cover"
+                    style={{ minHeight: '350px' }}
+                  />
                 </div>
+              </div>
 
-                <div className="bg-gray-50 rounded-3xl p-10 md:p-20 border border-gray-100">
-                    <h2 className="text-3xl font-bold text-gray-900 mb-14 text-center">Easy Printer Setup and Installation</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
-                        <div className="flex gap-6">
-                            <div className="flex-shrink-0 w-14 h-14 bg-blue-700 text-white rounded-full flex items-center justify-center font-bold text-2xl shadow-lg">1</div>
-                            <div>
-                                <h4 className="text-2xl font-bold text-gray-800 mb-4">Step 1: Unbox & Prepare</h4>
-                                <p className="text-gray-600 text-lg leading-relaxed">
-                                    Remove all protective tapes, internal locks, and packaging materials. Ensure all accessories like ink cartridges and power cables are present.
-                                </p>
-                            </div>
-                        </div>
-                        <div className="flex gap-6">
-                            <div className="flex-shrink-0 w-14 h-14 bg-blue-700 text-white rounded-full flex items-center justify-center font-bold text-2xl shadow-lg">2</div>
-                            <div>
-                                <h4 className="text-2xl font-bold text-gray-800 mb-4">Step 2: Power On</h4>
-                                <p className="text-gray-600 text-lg leading-relaxed">
-                                    Plug into wall outlet and select language preferences on display. Wait for the printer to initialize and follow any on-screen prompts.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
+          </div>
         </section>
       )}
     </div>

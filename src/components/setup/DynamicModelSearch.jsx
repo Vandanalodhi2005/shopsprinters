@@ -1,6 +1,7 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import ModelSearch from "./ModelSearch";
+import SetupHeader from "./Header";
 
 const brandConfigs = {
   HP: {
@@ -43,13 +44,23 @@ const DynamicModelSearch = () => {
   const navigate = useNavigate();
   const config = brandConfigs[brand] || {};
   const [allowCompleteSetup, setAllowCompleteSetup] = React.useState(true);
+  const [settings, setSettings] = React.useState({ showHeader: false, showLogo: true });
 
   React.useEffect(() => {
     const fetchSettings = () => {
       fetch(import.meta.env.VITE_API_URL.replace('/api', '/setup-api/header-visibility'))
         .then(res => res.json())
-        .then(data => setAllowCompleteSetup(data.showCompleteSetupPage !== false))
-        .catch(() => setAllowCompleteSetup(true));
+        .then(data => {
+          setAllowCompleteSetup(data.showCompleteSetupPage !== false);
+          setSettings({
+            showHeader: data.showHeader !== false,
+            showLogo: data.showLogo !== false
+          });
+        })
+        .catch(() => {
+          setAllowCompleteSetup(true);
+          setSettings({ showHeader: false, showLogo: true });
+        });
     };
     fetchSettings();
     const intervalId = setInterval(fetchSettings, 10000);
@@ -69,17 +80,20 @@ const DynamicModelSearch = () => {
   };
 
   return (
-    <ModelSearch
-      brand={brand}
-      logo={config.logo}
-      placeholder={config.placeholder}
-      bgImage={config.bgImage}
-      searchButtonBgColor={config.searchButtonBgColor}
-      searchButtonTextColor={config.searchButtonTextColor}
-      searchButtonHoverColor={config.searchButtonHoverColor}
-      onSearch={handleSearch}
-      onBack={() => navigate('/select-your-brand/')}
-    />
+    <>
+      {settings.showHeader && <SetupHeader showLogo={settings.showLogo} />}
+      <ModelSearch
+        brand={brand}
+        logo={config.logo}
+        placeholder={config.placeholder}
+        bgImage={config.bgImage}
+        searchButtonBgColor={config.searchButtonBgColor}
+        searchButtonTextColor={config.searchButtonTextColor}
+        searchButtonHoverColor={config.searchButtonHoverColor}
+        onSearch={handleSearch}
+        onBack={() => navigate('/select-your-brand/')}
+      />
+    </>
   );
 };
 
