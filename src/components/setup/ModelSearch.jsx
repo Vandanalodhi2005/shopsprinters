@@ -100,13 +100,7 @@ const ModelSearch = ({
                 </div>
             </div>
             
-            {onBack && (
-                <div className="flex justify-center mb-8">
-                    <button className="text-gray-500 hover:underline text-sm flex items-center" onClick={onBack}>
-                        <i className="fa-solid fa-arrow-left mr-1"></i> Back to Connection
-                    </button>
-                </div>
-            )}
+            
             
             {brand && <BrandFooter brand={brand} />}
         </div>
